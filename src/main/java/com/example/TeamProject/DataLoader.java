@@ -37,7 +37,7 @@ public class DataLoader {
         User u1=new User();
         User u2=new User();
         u1.setUsername("user1");
-        u1.setUsername("user2");
+        u2.setUsername("user2");
         userRepo.save(u1);
         userRepo.save(u2);
 
