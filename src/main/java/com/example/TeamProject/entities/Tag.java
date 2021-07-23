@@ -17,6 +17,7 @@ public class Tag {
     public Integer getId() {
         return id;
     }
+    //TODO: прописать EQUALS
 
     public void setId(Integer id) {
         this.id = id;
