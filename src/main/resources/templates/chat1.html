@@ -9,15 +9,15 @@
             flex-direction: column;
             /*height:100%;*/
             height: 90vh;
-            overflow: auto;
-            border: 2px double black;
+
+            border: 1px solid black;
             justify-content: flex-start;
             align-content: space-between;
         }
         /*Общий класс для верхней части (панель чата + меню тегов)*/
         .header{
             display:flex;
-            border: 2px double red;
+            border: 1px solid black;
             flex-direction: column;
         }
         /*Шапка чата*/
@@ -29,7 +29,7 @@
             height: 70px;
 
             margin: auto;
-            box-shadow: 0 4px 2px 2px rgba(1,1,1,0.5);
+            /*box-shadow: 0 4px 2px 2px rgba(1,1,1,0.5);*/
             /*position:fixed;*/
         }
 
@@ -38,9 +38,20 @@
             display:flex;
             width:100%;
             height:40px;
-            border: 2px solid;
+            border: 1px solid black;
+
+            flex-direction: row;
+            overflow-x:auto;
             /*top:84px;*/
             /*position:absolute;*/
+        }
+        /*TODO: теги - это кнопки или ссылки? */
+        .tag{
+            display:flex;
+            text-align: center;
+            border: 1px solid black;
+            padding:3px;
+            margin:3px;
         }
 
         /*Панель ввода*/
@@ -48,7 +59,7 @@
             display:flex;
             width:100%;
             justify-content: flex-start;
-            border: 2px double red;
+            border: 1px solid black;
             padding-top:10px;
             padding-bottom:10px;
         }
@@ -59,8 +70,9 @@
         .chat{
             display:flex;
             height:100%;
-            border: 2px solid blue;
+            border: 1px solid black;
             flex-direction: column;
+            overflow-y: auto;
         }
         /*ВСЕ ПО СООБЩЕНИЮ*/
         .msg{
@@ -69,7 +81,7 @@
             margin-bottom: 5px;
             flex-direction: column;
             width:40%;
-            border: 2px solid black;
+            border: 1px solid black;
         }
         .username{
             display:flex;
@@ -87,29 +99,34 @@
             /*border: 1px double black;*/
         }
     </style>
+
 </head>
 <body>
 <!-- Шапка -->
 <div class="header">
+    <!-- Часть самого чата   -->
     <div class="panel">
       <span th:text="${chat.getTitle()}"></span>
     </div>
+
     <!--Меню с тегами-->
     <div class="tags">
-      <span> Tags</span>
+        <div  th:each="t : ${tags}">
+        <a class="tag" th:text="${t.getName()}" th:href="@{tag/{id}(id=${t.getId()})}"></a>
+        </div>
     </div>
 </div>
 <!--Чат со скроллингом-->
-<div class="chat" >
-<!--    TODO: отсортировать findAll по времени-->
+<!--TODO: после добавления нового сообщения скроллинг должен быть внизу, а он автоматически вверху-->
+<div class="chat">
 <!--    TODO: сделать слева все те сообщения, которые не принадлежат текущему юзеру? с помощью sec-->
     <div class="msg" th:each="m : ${msgs}">
-        <span class="username" th:text="${m.getUser().getUsername()}"></span>
-<!--        <span> :</span>-->
+        <span class="username" th:text="${m.getUser().getUsername()}" ></span>
         <span class="textblock" th:text="${m.getText()}"></span>
         <span class="dateblock" th:text="${m.getTimeString()}"></span>
     </div>
 </div>
+
 <!--Фиксированная панель внизу с полем ввода текста-->
 <div class="input">
 <form th:action="@{/chat1}" method="post">
