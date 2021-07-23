@@ -1,6 +1,7 @@
 package com.example.TeamProject.entities;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -58,5 +59,14 @@ public class Message {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    /***
+     * Вспомогательная функция для извлечения времени отправки сообщения
+     * @return строку в форме "чч:мм"
+     */
+    public String getTimeString(){
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+        return format.format(create_date);
     }
 }
