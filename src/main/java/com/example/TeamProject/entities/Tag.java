@@ -14,10 +14,15 @@ public class Tag {
 
     String name;
 
+    //TODO: прописать EQUALS
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
     public Integer getId() {
         return id;
     }
-    //TODO: прописать EQUALS
 
     public void setId(Integer id) {
         this.id = id;
