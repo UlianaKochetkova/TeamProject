@@ -45,7 +45,7 @@
             /*top:84px;*/
             /*position:absolute;*/
         }
-        /*TODO: теги - это кнопки или ссылки? */
+
         .tag{
             display:flex;
             text-align: center;
@@ -72,6 +72,8 @@
             height:100%;
             border: 1px solid black;
             flex-direction: column;
+            /*TODO: правка Максима*/
+            /*justify-content: flex-end;*/
             overflow-y: auto;
         }
         /*ВСЕ ПО СООБЩЕНИЮ*/
@@ -111,8 +113,9 @@
 
     <!--Меню с тегами-->
     <div class="tags">
+        <a class="tag" th:href="@{/chat1}">Main</a>
         <div  th:each="t : ${tags}">
-        <a class="tag" th:text="${t.getName()}" th:href="@{tag/{id}(id=${t.getId()})}"></a>
+        <a class="tag" th:text="${t.getName()}" th:href="@{/tag/{id}(id=${t.getId()})}"></a>
         </div>
     </div>
 </div>
