@@ -53,6 +53,7 @@ public class ChatController {
         model.addAttribute("chat",chatRepo.findChatByTitle("chat1"));
         model.addAttribute("tags",tagRepo.findAll());
         model.addAttribute("msgs", lst);
+        model.addAttribute("mt",messageTagRepo);
         return "chat1";
     }
 
@@ -70,18 +71,20 @@ public class ChatController {
 
 /////////////////////////////////////////////////////////////////////
     @GetMapping("/tag/{id}")
-    public String modifyFrom(@PathVariable("id") Integer id, Model model){
+    public String getTag(@PathVariable("id") Integer id, Model model){
         //model.addAttribute("curtag",tagRepo.findTagById(id));
-        List<Message_Tag> mt=messageTagRepo.findAllByTag(tagRepo.findTagById(id));
+//        List<Message_Tag> mt=messageTagRepo.findAllByTag(tagRepo.findTagById(id));
+        List<Message_Tag> mt=messageTagRepo.findAllByTag_Id(id);
         ArrayList<Message> tagmsg=new ArrayList<Message>();
         for (int i=0;i<mt.size(); i++){
-            tagmsg.add(messageRepo.findMessageById(mt.get(i).getId()));
+            tagmsg.add(mt.get(i).getMessage());
+            System.out.println(tagmsg.get(i).getText());
         }
-        //model.addAttribute("tagmsg",tagmsg);
-        tagmsg.sort(Comparator.comparing(Message::getCreate_date));
+        tagmsg.sort(Comparator.comparing(Message::getCreate_date).reversed());
         model.addAttribute("chat",chatRepo.findChatByTitle("chat1"));
         model.addAttribute("tags",tagRepo.findAll());
         model.addAttribute("msgs",tagmsg);
+        model.addAttribute("mt",messageTagRepo);
         return "chat1";
     }
 

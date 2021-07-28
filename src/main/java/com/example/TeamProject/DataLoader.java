@@ -40,7 +40,9 @@ public class DataLoader {
         User u1=new User();
         User u2=new User();
         u1.setUsername("user1");
+        u1.setPhoneNum("+12345678901");
         u2.setUsername("user2");
+        u2.setPhoneNum("+98765432109");
         userRepo.save(u1);
         userRepo.save(u2);
 
@@ -59,14 +61,17 @@ public class DataLoader {
         Tag tag1=new Tag();
         tag1.setName("tiktok");
         tag1.setChat(chat);
+        tag1.setColor("#03fcdb");
         Tag tag2=new Tag();
         tag2.setName("instagram");
+        tag2.setChat(chat);
+        tag2.setColor("#f542ef");
         Tag tag3=new Tag();
         tag3.setName("vkontakte");
+        tag3.setChat(chat);
+        tag3.setColor("#fcba03");
         Tag tag4=new Tag();
         tag4.setName("spam");
-        tag2.setChat(chat);
-        tag3.setChat(chat);
         tag4.setChat(chat);
         tagRepo.save(tag1);
         tagRepo.save(tag2);
@@ -97,5 +102,14 @@ public class DataLoader {
         mt.setTag(tag1);
         messageTagRepo.save(mt);
 
+        Message_Tag mt1=new Message_Tag();
+        mt1.setMessage(msg);
+        mt1.setTag(tag2);
+        messageTagRepo.save(mt1);
+
+        Message_Tag mt2=new Message_Tag();
+        mt2.setMessage(msg);
+        mt2.setTag(tag3);
+        messageTagRepo.save(mt2);
     }
 }

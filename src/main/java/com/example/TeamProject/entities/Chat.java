@@ -18,6 +18,27 @@ public class Chat {
     String title;
     String description;
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj==this){
+            return true;
+        }
+        if (obj==null){
+            return false;
+        }
+        if (this.getClass()!=obj.getClass())
+            return false;
+        Chat o=(Chat)obj;
+
+        if (!title.equals(o.title)){
+            return false;
+        }
+        if (!description.equals(o.description)){
+            return false;
+        }
+        return true;
+    }
+
     public Integer getId() {
         return id;
     }

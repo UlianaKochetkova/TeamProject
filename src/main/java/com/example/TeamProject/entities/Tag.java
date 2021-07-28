@@ -14,10 +14,26 @@ public class Tag {
 
     String name;
 
-    //TODO: прописать EQUALS
+    String color;
+
     @Override
     public boolean equals(Object obj) {
-        return super.equals(obj);
+        if (obj==this){
+            return true;
+        }
+        if (obj==null){
+            return false;
+        }
+        if (this.getClass()!=obj.getClass())
+            return false;
+        Tag o=(Tag)obj;
+        if (!chat.equals(o.chat)){
+            return false;
+        }
+        if (!name.equals(o.name)){
+            return false;
+        }
+        return true;
     }
 
     public Integer getId() {
@@ -42,5 +58,13 @@ public class Tag {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }
