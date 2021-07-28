@@ -86,6 +86,12 @@
             width:40%;
             border: 1px solid black;
         }
+        .topmsg{
+            display: flex;
+            justify-content: space-between;
+            margin-top:7px;
+            margin-bottom: 7px;
+        }
         .username{
             display:flex;
             margin-left: 10px;
@@ -101,6 +107,22 @@
             display:flex;
             /*border: 1px double black;*/
         }
+        .tagblock{
+            display:flex;
+            margin-right: 10px;
+            /*border: 1px double black;*/
+            justify-content: space-between;
+        }
+        .round{
+            width: 20px;
+            height: 20px;
+            border: 1px solid black;
+            border-radius: 50%;
+            -moz-border-radius: 50%;
+            display:block;
+            margin-left:2px;
+            margin-right: 2px;
+        }
     </style>
 
 </head>
@@ -110,6 +132,8 @@
     <!-- Часть самого чата   -->
     <div class="panel">
       <span th:text="${chat.getTitle()}"></span>
+<!--        TODO: мне здесь нужен id текущего юзера как-то изъять. security?-->
+      <span>Link here</span>
     </div>
 
     <!--Меню с тегами-->
@@ -121,11 +145,20 @@
     </div>
 </div>
 <!--Чат со скроллингом-->
-<!--TODO: после добавления нового сообщения скроллинг должен быть внизу, а он автоматически вверху-->
 <div class="chat">
 <!--    TODO: сделать слева все те сообщения, которые не принадлежат текущему юзеру? с помощью sec-->
     <div class="msg" th:each="m : ${msgs}">
-        <span class="username" th:text="${m.getUser().getUsername()}" ></span>
+<!--        <span class="username" th:text="${m.getUser().getUsername()}" ></span>-->
+        <div class="topmsg">
+        <a th:href="@{/user/{id}(id=${m.getUser().getId()})}" class="username" th:text="${m.getUser().getUsername()}" target="_blank"></a>
+<!--        TODO: часть с тегами-->
+        <div class="tagblock">
+        <div th:each="t : ${mt.findAllByMessage_Id(m.getId())}">
+        <a class="round" th:style="'background:'+ ${t.getTag().getColor()}+';'" th:href="@{/tag/{id}(id=${t.getTag().getId()})}"></a>
+        </div>
+        </div>
+
+        </div>
         <span class="textblock" th:text="${m.getText()}"></span>
         <span class="dateblock" th:text="${m.getTimeString()}"></span>
     </div>
