@@ -54,7 +54,7 @@ public class ChatController {
         model.addAttribute("tags",tagRepo.findAll());
         model.addAttribute("msgs", lst);
         model.addAttribute("mt",messageTagRepo);
-        return "chat1";
+        return "new_chat";
     }
 
     @PostMapping("/chat1")
@@ -85,7 +85,7 @@ public class ChatController {
         model.addAttribute("tags",tagRepo.findAll());
         model.addAttribute("msgs",tagmsg);
         model.addAttribute("mt",messageTagRepo);
-        return "chat1";
+        return "new_chat";
     }
 
 
