@@ -38,7 +38,6 @@ public class ChatController {
     @GetMapping("/chat")
     public String chat(Model model){
         model.addAttribute("msg",messageRepo.findAll());
-
         List<Message> lst=messageRepo.findAll();
         for (int i=0; i<lst.size(); i++){
             System.out.println(lst.get(i).getUser().getUsername()+": "+lst.get(i).getText());
@@ -49,7 +48,7 @@ public class ChatController {
     @GetMapping("/chat1")
     public String chat1(Model model){
         List<Message> lst=messageRepo.findAll();
-        lst.sort(Comparator.comparing(Message::getCreate_date).reversed());
+        lst.sort(Comparator.comparing(Message::getCreate_date));
         model.addAttribute("chat",chatRepo.findChatByTitle("chat1"));
         model.addAttribute("tags",tagRepo.findAll());
         model.addAttribute("msgs", lst);

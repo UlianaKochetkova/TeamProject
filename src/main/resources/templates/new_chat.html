@@ -110,27 +110,31 @@
 						</div>
 						<div class="card-body msg_card_body">
 							<div class="d-flex justify-content-start mb-4" th:each="m : ${msgs}">
-								<div class="topmsg">
-									<a th:href="@{/user/{id}(id=${m.getUser().getId()})}" class="username" th:text="${m.getUser().getUsername()}" target="_blank"></a>
-								<div class="tagblock">
-								<div th:each="t : ${mt.findAllByMessage_Id(m.getId())}">
-									<a class="round" th:style="'background:'+ ${t.getTag().getColor()}+';'" th:href="@{/tag/{id}(id=${t.getTag().getId()})}"></a>
-								</div>
-								</div>
-								</div>
 								<div class="msg_cotainer">
+									<div class="d-flex">
+										<div class="topmsg">
+											<a th:href="@{/user/{id}(id=${m.getUser().getId()})}" class="username" th:text="${m.getUser().getUsername()}" target="_blank"></a>
+										</div>
+										<div class="tagblock">
+											<div th:each="t : ${mt.findAllByMessage_Id(m.getId())}">
+												<a class="round" th:style="'background:'+ ${t.getTag().getColor()}+';'" th:href="@{/tag/{id}(id=${t.getTag().getId()})}"></a>
+											</div>
+										</div>
+									</div>
 									<span th:text="${m.getText()}"></span>
 									<span class="msg_time" th:text="${m.getTimeString()}"></span>
 								</div>
 							</div>
 						</div>
 						<div class="card-footer">
-							<div class="input">
-								<form th:action="@{/chat1}" method="post">
-									<input type="text" name="text" placeholder="Enter your text here">
-									<input type="submit" value="Send">
-								</form>
-							</div>
+							<form th:action="@{/chat1}" method="post">
+								<div class="input-group-append">
+									<input class="form-control type_msg" type="text" name="text" placeholder="Enter your text here">
+									<button class="input-group-text send_btn" type="submit">
+										<i class="fas fa-location-arrow"></i>
+									</button>
+								</div>
+							</form>
 						</div>
 					</div>
 				</div>

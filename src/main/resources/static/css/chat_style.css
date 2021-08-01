@@ -58,7 +58,7 @@
             margin-bottom: 7px;
         }
         .username{
-            display:flex;
+            display: flex;
             margin-left: 10px;
             /*border: 1px double red;*/
         }
@@ -73,10 +73,10 @@
             /*border: 1px double black;*/
         }
         .tagblock{
-            display:flex;
+            display: flex;
             margin-right: 10px;
             /*border: 1px double black;*/
-            justify-content: space-between;
+            /*justify-content: space-between;*/
         }
         .round{
             width: 20px;
