@@ -79,7 +79,7 @@ public class ChatController {
             tagmsg.add(mt.get(i).getMessage());
             System.out.println(tagmsg.get(i).getText());
         }
-        tagmsg.sort(Comparator.comparing(Message::getCreate_date).reversed());
+        tagmsg.sort(Comparator.comparing(Message::getCreate_date));
         model.addAttribute("chat",chatRepo.findChatByTitle("chat1"));
         model.addAttribute("tags",tagRepo.findAll());
         model.addAttribute("msgs",tagmsg);
