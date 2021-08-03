@@ -73,6 +73,7 @@ public class DataLoader {
         Tag tag4=new Tag();
         tag4.setName("spam");
         tag4.setChat(chat);
+        tag4.setColor("#ffffff");
         tagRepo.save(tag1);
         tagRepo.save(tag2);
         tagRepo.save(tag3);
