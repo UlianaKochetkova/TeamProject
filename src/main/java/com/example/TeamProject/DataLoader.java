@@ -6,29 +6,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 @Component
 public class DataLoader {
     @Autowired
-    private ChatRepo chatRepo;
+    private ChatRepository chatRepo;
 
     @Autowired
-    private MessageRepo messageRepo;
+    private MessageRepository messageRepo;
 
     @Autowired
-    private MessageTagRepo messageTagRepo;
+    private MessageTagRepository messageTagRepo;
 
     @Autowired
-    private TagRepo tagRepo;
+    private TagRepository tagRepo;
 
     @Autowired
-    private UserRepo userRepo;
+    private UserRepository userRepo;
 
     @Autowired
-    private UserChatRepo userChatRepo;
+    private UserChatRepository userChatRepo;
 
     @PostConstruct
     public void loadData(){

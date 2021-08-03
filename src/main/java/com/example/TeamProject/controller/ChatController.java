@@ -18,22 +18,22 @@ import java.util.List;
 @Controller
 public class ChatController {
     @Autowired
-    private ChatRepo chatRepo;
+    private ChatRepository chatRepo;
 
     @Autowired
-    private MessageRepo messageRepo;
+    private MessageRepository messageRepo;
 
     @Autowired
-    private MessageTagRepo messageTagRepo;
+    private MessageTagRepository messageTagRepo;
 
     @Autowired
-    private TagRepo tagRepo;
+    private TagRepository tagRepo;
 
     @Autowired
-    private UserRepo userRepo;
+    private UserRepository userRepo;
 
     @Autowired
-    private UserChatRepo userChatRepo;
+    private UserChatRepository userChatRepo;
 
     @GetMapping("/chat")
     public String chat(Model model){

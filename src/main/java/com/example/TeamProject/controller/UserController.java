@@ -11,22 +11,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class UserController {
     @Autowired
-    private ChatRepo chatRepo;
+    private ChatRepository chatRepo;
 
     @Autowired
-    private MessageRepo messageRepo;
+    private MessageRepository messageRepo;
 
     @Autowired
-    private MessageTagRepo messageTagRepo;
+    private MessageTagRepository messageTagRepo;
 
     @Autowired
-    private TagRepo tagRepo;
+    private TagRepository tagRepo;
 
     @Autowired
-    private UserRepo userRepo;
+    private UserRepository userRepo;
 
     @Autowired
-    private UserChatRepo userChatRepo;
+    private UserChatRepository userChatRepo;
 
     @GetMapping("/user/{id}")
     public String getUser(@PathVariable("id") Integer id, Model model){
