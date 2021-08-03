@@ -48,7 +48,7 @@ public class ChatController {
     @GetMapping("/chat1")
     public String chat1(Model model){
         List<Message> lst=messageRepo.findAll();
-        lst.sort(Comparator.comparing(Message::getCreate_date));
+        lst.sort(Comparator.comparing(Message::getCreate_date).reversed());
         model.addAttribute("chat",chatRepo.findChatByTitle("chat1"));
         model.addAttribute("tags",tagRepo.findAll());
         model.addAttribute("msgs", lst);
