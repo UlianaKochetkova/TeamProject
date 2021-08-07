@@ -1,14 +1,14 @@
 package com.example.TeamProject.controller;
 
+import com.example.TeamProject.entities.Chat;
 import com.example.TeamProject.entities.Message;
 import com.example.TeamProject.entities.Message_Tag;
 import com.example.TeamProject.repos.*;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -88,7 +88,7 @@ public class ChatController {
         ArrayList<Message> tagmsg=new ArrayList<Message>();
         for (int i=0;i<mt.size(); i++){
             tagmsg.add(mt.get(i).getMessage());
-            System.out.println(tagmsg.get(i).getText());
+            //System.out.println(tagmsg.get(i).getText());
         }
         tagmsg.sort(Comparator.comparing(Message::getCreate_date));
         model.addAttribute("chat",chatRepo.findChatByTitle("chat1"));
@@ -98,5 +98,18 @@ public class ChatController {
         return "new_chat";
     }
 
-
+    @RequestMapping(method = RequestMethod.GET)
+    public String getTag1(Integer id){
+        System.out.println("Функция вызвана");
+        //model.addAttribute("curtag",tagRepo.findTagById(id));
+//        List<Message_Tag> mt=messageTagRepo.findAllByTag(tagRepo.findTagById(id));
+        List<Message_Tag> mt=messageTagRepo.findAllByTag_Id(id);
+        ArrayList<Message> tagmsg=new ArrayList<Message>();
+        for (int i=0;i<mt.size(); i++){
+            tagmsg.add(mt.get(i).getMessage());
+        }
+        tagmsg.sort(Comparator.comparing(Message::getCreate_date));
+        String json = new Gson().toJson(tagmsg);
+        return json;
+    }
 }

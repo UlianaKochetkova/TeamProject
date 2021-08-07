@@ -1,11 +1,14 @@
-<%@ page import="com.example.TeamProject.controller.ChatController" %>
+<%@ page import="com.example.TeamProject.controller.ChatController"%>
 <%
-<%--    Забираем с запроса параметр ?--%>
-    String param1 = request.getParameter("param1");
+<%--    Тот параметр, который прописали в send--%>
+    String tagid = request.getParameter("tagid");
+
     String strResponse;
 <%--Вызывается метод класса--%>
-    strResponse = SomeClass.doSomeActionToGetResponse(param1);
-<%-- Выгружается ответ --%>
+<%--Здесь создаем объект класса, вызываем новую функцию с параметрами, получаем ответ (лучше сразу в JSON)--%>
+    ChatController cc=new ChatController();
+    strResponse = cc.getTag1(tagid);
+
     out.println(strResponse);
     out.flush();
 %>

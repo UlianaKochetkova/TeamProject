@@ -13,7 +13,8 @@
 	<body>
 		<div class="container-fluid h-100">
 			<div class="row justify-content-center h-100">
-				<div class="col-md-4 col-xl-3 chat"><div class="card mb-sm-3 mb-md-0 contacts_card">
+				<div class="col-md-4 col-xl-3 chat">
+					<div class="card mb-sm-3 mb-md-0 contacts_card">
 					<div class="card-header">
 						<div class="input-group">
 							<!--	TODO: Кнопка добавления чата						-->
@@ -109,13 +110,6 @@
 									<span th:text="${chat.getTitle()}"></span>
 									<p><span th:text="${msgs.size()}"/> Messages</p>
 								</div>
-								<!-- Меню тегов -->
-<!--								<div class="tags">-->
-<!--									<a class="tag bg-white" th:href="@{/chat1}">Main</a>-->
-<!--									<div th:each="t : ${tags}">-->
-<!--										<a class="tag" th:style="'background:'+ ${t.getColor()}+';'" th:text="${t.getName()}" th:href="@{/tag/{id}(id=${t.getId()})}"></a>-->
-<!--									</div>-->
-<!--								</div>-->
 							</div>
 						</div>
 
@@ -126,7 +120,8 @@
 						<div class="tags">
 							<a class="tag bg-white" th:href="@{/chat1}">Main</a>
 							<div th:each="t : ${tags}">
-								<a class="tag" th:style="'background:'+ ${t.getColor()}+';'" th:text="${t.getName()}" th:href="@{/tag/{id}(id=${t.getId()})}"></a>
+<!--								<a onclick="somefunc()" class="tag" th:style="'background:'+ ${t.getColor()}+';'" th:text="${t.getName()}" th:href="@{/tag/{id}(id=${t.getId()})}"></a>-->
+								<button onclick="someFunc()" class="tag" th:style="'background:'+ ${t.getColor()}+';'" th:text="${t.getName()}"></button>
 							</div>
 						</div>
 						</div>
