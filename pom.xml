@@ -51,6 +51,12 @@
             <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
         <!-- Security-->
 <!--        <dependency>-->
 <!--            <groupId>org.springframework.boot</groupId>-->
