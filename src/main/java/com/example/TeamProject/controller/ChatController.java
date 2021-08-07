@@ -65,6 +65,7 @@ public class ChatController {
         msg.setUser(userRepo.findUserByUsername("user1"));
         msg.setChat(chatRepo.findChatByTitle("chat1"));
         messageRepo.save(msg);
+        //Расставляем тэги
         science.Message scienceMessage = new science.Message(msg.getText());
         List<Message_Tag> messageTags = new ArrayList<>();
         for (science.Tag messageTag : scienceMessage.getListMessageTags()) {
@@ -74,6 +75,7 @@ public class ChatController {
             messageTags.add(message_tag);
         }
         messageTags.forEach(messageTagRepo::save);
+        //
         return chat1(model);
     }
 
