@@ -99,6 +99,7 @@ public class ChatController {
         }
         tagmsg.sort(Comparator.comparing(Message::getCreate_date));
         String json = new Gson().toJson(tagmsg);
+        System.out.println(json);
         return json;
     }
 }

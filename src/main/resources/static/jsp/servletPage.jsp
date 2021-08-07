@@ -8,7 +8,6 @@
 <%--Здесь создаем объект класса, вызываем новую функцию с параметрами, получаем ответ (лучше сразу в JSON)--%>
     ChatController cc=new ChatController();
     strResponse = cc.getTag1(tagid);
-
     out.println(strResponse);
     out.flush();
 %>

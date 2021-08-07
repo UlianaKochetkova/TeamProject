@@ -21,7 +21,7 @@ xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 //Функция для проверки какого-либо ответа
 // 200 = OK
 	xhr.onload = function() {
-		console.log('Функция вызвана');
+//		console.log('Функция вызвана');
 		if (xhr.status === 200) {
 			//TODO:Что здесь за действие?
 			//Обработка того, что пришло с бэка
@@ -29,6 +29,8 @@ xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 			//doSomeAction(xhr.responseText, param1);
 			//success(xhr.responseText);
 			// console.log(xhr.responseText);
+			//console.log(xhr.responseType);
+			console.log(xhr.response);
 			return false;
 		} else {
 			alert('Request failed. Returned status of ' + xhr.status);
