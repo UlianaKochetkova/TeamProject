@@ -1,8 +1,6 @@
 package com.example.TeamProject.controller;
 
-import com.example.TeamProject.entities.Chat;
-import com.example.TeamProject.entities.Message;
-import com.example.TeamProject.entities.Message_Tag;
+import com.example.TeamProject.entities.*;
 import com.example.TeamProject.repos.*;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,10 +47,12 @@ public class ChatController {
     public String chat1(Model model){
         List<Message> lst=messageRepo.findAll();
         lst.sort(Comparator.comparing(Message::getCreate_date).reversed());
+        model.addAttribute("chats",chatRepo.findAll());
         model.addAttribute("chat",chatRepo.findChatByTitle("chat1"));
         model.addAttribute("tags",tagRepo.findAll());
         model.addAttribute("msgs", lst);
         model.addAttribute("mt",messageTagRepo);
+        model.addAttribute("users",userRepo.findAll());
         return "new_chat";
     }
 
@@ -112,5 +112,17 @@ public class ChatController {
         String json = new Gson().toJson(tagmsg);
         System.out.println(json);
         return json;
+    }
+
+    @PostMapping("/addChat")
+    public String addChat(@RequestParam User[] users, Chat chat, Model model){
+        //Добавляем связку "чат - пользователь"
+        for (int i=0; i<users.length; i++){
+            //System.out.println(users[i].getUsername());
+            User_Chat uc = new User_Chat(users[i],chat);
+            userChatRepo.save(uc);
+        }
+        chatRepo.save(chat);
+        return chat1(model);
     }
 }

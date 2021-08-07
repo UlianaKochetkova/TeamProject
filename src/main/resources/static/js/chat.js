@@ -2,8 +2,28 @@
 $('#action_menu_btn').click(function(){
 	$('.action_menu').toggle();
 });
+
+		$("#hide").hide();
+		$('.add_btn').click(function(){
+			$('#hide').show();
+			$('#hide').css("margin", "auto");
+		});
+
+		$('#cancel').click(function(){
+			$("#hide").hide();
+		});
+
+		$('#chatinform').hide();
+		$('.chatbut').click(function(){
+			$('#chatinform').show();
+			$('#chatinform').css("margin", "auto");
+		});
+		$('#back').click(function(){
+			$("#chatinform").hide();
+		});
 	});
 
+//document.getElementById('submit').addEventListener('click', load);
 /////////////////////////////////////////////////////////////////КОД ДАШИ
 function someFunc(){
 	//console.log('Функция вызвана');
