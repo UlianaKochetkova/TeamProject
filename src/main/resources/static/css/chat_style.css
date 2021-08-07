@@ -182,6 +182,11 @@
 			overflow-y: auto;
 			white-space: nowrap;
 		}
+
+        .reversed-flex {
+            display: flex;
+            flex-direction: column-reverse;
+        }
 		.msg_card_body{
 			overflow-y: auto;
 		}
