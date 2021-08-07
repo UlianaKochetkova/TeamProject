@@ -28,7 +28,6 @@ xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 			//jQuery эквивалетно - success
 			//doSomeAction(xhr.responseText, param1);
 			//success(xhr.responseText);
-			// console.log(xhr.responseText);
 			//console.log(xhr.responseType);
 			console.log(xhr.response);
 			return false;
