@@ -2,6 +2,7 @@ package science;
 
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -17,7 +18,7 @@ public class MessageTags extends HashMap<Tag, Double> {
         }
     }
 
-    public Map<Tag, Double> getTopTags(int count) {
+    public Map<Tag, Double> getTopTagsMap(int count) {
         return this.entrySet().stream()
                 .filter(tagDoubleEntry -> tagDoubleEntry.getValue() > 0)
                 .sorted(Comparator.comparingDouble(Map.Entry<Tag, Double>::getValue).reversed())
@@ -25,8 +26,17 @@ public class MessageTags extends HashMap<Tag, Double> {
                 .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
     }
 
+    public List<Tag> getTopTags(int count) {
+        return this.entrySet().stream()
+                .filter(tagDoubleEntry -> tagDoubleEntry.getValue() > 0)
+                .sorted(Comparator.comparingDouble(Map.Entry<Tag, Double>::getValue).reversed())
+                .limit(count)
+                .map(Entry::getKey)
+                .collect(Collectors.toList());
+    }
+
     @Override
     public String toString() {
-        return getTopTags(3).toString();
+        return getTopTagsMap(3).toString();
     }
 }

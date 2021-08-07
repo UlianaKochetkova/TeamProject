@@ -28,7 +28,11 @@ public class Message {
     }
 
 
-    public String getMessageTags() {
-        return messageTags.toString();
+    public MessageTags getMessageTags() {
+        return messageTags;
+    }
+
+    public List<Tag> getListMessageTags() {
+        return messageTags.getTopTags(3);
     }
 }
