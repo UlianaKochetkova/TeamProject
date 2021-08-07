@@ -48,7 +48,7 @@ public class ChatController {
     @GetMapping("/chat1")
     public String chat1(Model model){
         List<Message> lst=messageRepo.findAll();
-        lst.sort(Comparator.comparing(Message::getCreate_date));
+        lst.sort(Comparator.comparing(Message::getCreate_date).reversed());
         model.addAttribute("chat",chatRepo.findChatByTitle("chat1"));
         model.addAttribute("tags",tagRepo.findAll());
         model.addAttribute("msgs", lst);
@@ -65,6 +65,17 @@ public class ChatController {
         msg.setUser(userRepo.findUserByUsername("user1"));
         msg.setChat(chatRepo.findChatByTitle("chat1"));
         messageRepo.save(msg);
+        //Расставляем тэги
+        science.Message scienceMessage = new science.Message(msg.getText());
+        List<Message_Tag> messageTags = new ArrayList<>();
+        for (science.Tag messageTag : scienceMessage.getListMessageTags()) {
+            Message_Tag message_tag = new Message_Tag();
+            message_tag.setMessage(msg);
+            message_tag.setTag(tagRepo.findTagById(messageTag.ordinal()));
+            messageTags.add(message_tag);
+        }
+        messageTags.forEach(messageTagRepo::save);
+        //
         return chat1(model);
     }
 
