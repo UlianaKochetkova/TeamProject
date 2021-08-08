@@ -1,0 +1,16 @@
+<div class="d-flex justify-content-start mb-4" th:each="m : ${msgs}">
+	<div class="msg_cotainer">
+		<div class="d-flex firstline">
+		<div class="topmsg">
+			<a class="username text-dark" th:href="@{/user/{id}(id=${m.getUser().getId()})}" th:text="${m.getUser().getUsername()}" target="_blank"></a>
+		</div>
+			<div class="tagblock">
+				<div th:each="t : ${mt.findAllByMessage_Id(m.getId())}">
+					<a class="round" th:style="'background:'+ ${t.getTag().getColor()}+';'" th:href="@{/tag/{id}(id=${t.getTag().getId()})}"></a>
+				</div>
+			</div>
+		</div>
+		<span th:text="${m.getText()}"></span>
+		<span class="msg_time" th:text="${m.getTimeString()}"></span>
+	</div>
+</div>
