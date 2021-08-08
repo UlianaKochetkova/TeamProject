@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<title>Chat</title>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -126,7 +126,6 @@
 						</div>
 						</div>
 							</div>
-
 						<!--	ЧАТ		-->
 						<div class="card-body msg_card_body" id="msgs_body">
 							<div class="d-flex justify-content-start mb-4" th:each="m : ${msgs}">
