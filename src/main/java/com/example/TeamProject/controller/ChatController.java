@@ -98,19 +98,22 @@ public class ChatController {
         return "new_chat";
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String getTag1(Integer id){
-        System.out.println("Функция вызвана");
+    @RequestMapping(value = "/getTagMsgs", method = RequestMethod.GET)
+    public String getTag1(@RequestParam("tagid") String id, Model model){
+        System.out.println("Функция вызвана " + id);
+        int tId = Integer.parseInt(id);
         //model.addAttribute("curtag",tagRepo.findTagById(id));
 //        List<Message_Tag> mt=messageTagRepo.findAllByTag(tagRepo.findTagById(id));
-        List<Message_Tag> mt=messageTagRepo.findAllByTag_Id(id);
+        List<Message_Tag> mt=messageTagRepo.findAllByTag_Id(tId);
         ArrayList<Message> tagmsg=new ArrayList<Message>();
         for (int i=0;i<mt.size(); i++){
             tagmsg.add(mt.get(i).getMessage());
         }
         tagmsg.sort(Comparator.comparing(Message::getCreate_date));
-        String json = new Gson().toJson(tagmsg);
-        System.out.println(json);
-        return json;
+        model.addAttribute("mt", messageTagRepo);
+        model.addAttribute("msgs", tagmsg);
+        //String json = new Gson().toJson(tagmsg);
+        //System.out.println(json);
+        return "msgs_template";
     }
 }

@@ -120,15 +120,14 @@
 						<div class="tags">
 							<a class="tag bg-white" th:href="@{/chat1}">Main</a>
 							<div th:each="t : ${tags}">
-<!--								<a class="tag" th:style="'background:'+ ${t.getColor()}+';'" th:text="${t.getName()}" th:href="@{/tag/{id}(id=${t.getId()})}"></a>-->
-								<button onclick="someFunc()" class="tag" th:style="'background:'+ ${t.getColor()}+';'" th:text="${t.getName()}"></button>
+<!--								<a onclick="somefunc()" class="tag" th:style="'background:'+ ${t.getColor()}+';'" th:text="${t.getName()}" th:href="@{/tag/{id}(id=${t.getId()})}"></a>-->
+								<button th:attr="onclick=|someFunc('${t.getId()}')|"  class="tag" th:style="'background:'+ ${t.getColor()}+';'" th:text="${t.getName()}"></button>
 							</div>
 						</div>
 						</div>
 							</div>
-
 						<!--	ЧАТ		-->
-                        <div class="card-body msg_card_body reversed-flex">
+						<div class="card-body msg_card_body reversed-flex" id="msgs_body">
 							<div class="d-flex justify-content-start mb-4" th:each="m : ${msgs}">
 								<div class="msg_cotainer">
 									<div class="d-flex firstline">
