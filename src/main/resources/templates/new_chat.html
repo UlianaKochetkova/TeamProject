@@ -121,7 +121,7 @@
 							<a class="tag bg-white" th:href="@{/chat1}">Main</a>
 							<div th:each="t : ${tags}">
 <!--								<a onclick="somefunc()" class="tag" th:style="'background:'+ ${t.getColor()}+';'" th:text="${t.getName()}" th:href="@{/tag/{id}(id=${t.getId()})}"></a>-->
-								<button onclick="someFunc()" class="tag" th:style="'background:'+ ${t.getColor()}+';'" th:text="${t.getName()}"></button>
+								<button th:attr="onclick=|someFunc('${t.getId()}')|"  class="tag" th:style="'background:'+ ${t.getColor()}+';'" th:text="${t.getName()}"></button>
 							</div>
 						</div>
 						</div>

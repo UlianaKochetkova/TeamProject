@@ -101,10 +101,10 @@ public class ChatController {
     @RequestMapping(value = "/getTagMsgs", method = RequestMethod.GET)
     public String getTag1(@RequestParam("tagid") String id, Model model){
         System.out.println("Функция вызвана " + id);
-        int tid = Integer.parseInt(id);
+        int tId = Integer.parseInt(id);
         //model.addAttribute("curtag",tagRepo.findTagById(id));
 //        List<Message_Tag> mt=messageTagRepo.findAllByTag(tagRepo.findTagById(id));
-        List<Message_Tag> mt=messageTagRepo.findAllByTag_Id(tid);
+        List<Message_Tag> mt=messageTagRepo.findAllByTag_Id(tId);
         ArrayList<Message> tagmsg=new ArrayList<Message>();
         for (int i=0;i<mt.size(); i++){
             tagmsg.add(mt.get(i).getMessage());
