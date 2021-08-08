@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<title>Chat</title>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -120,7 +120,7 @@
 						<div class="tags">
 							<a class="tag bg-white" th:href="@{/chat1}">Main</a>
 							<div th:each="t : ${tags}">
-<!--								<a onclick="somefunc()" class="tag" th:style="'background:'+ ${t.getColor()}+';'" th:text="${t.getName()}" th:href="@{/tag/{id}(id=${t.getId()})}"></a>-->
+<!--								<a class="tag" th:style="'background:'+ ${t.getColor()}+';'" th:text="${t.getName()}" th:href="@{/tag/{id}(id=${t.getId()})}"></a>-->
 								<button onclick="someFunc()" class="tag" th:style="'background:'+ ${t.getColor()}+';'" th:text="${t.getName()}"></button>
 							</div>
 						</div>
@@ -128,7 +128,7 @@
 							</div>
 
 						<!--	ЧАТ		-->
-						<div class="card-body msg_card_body" id="msgs_body">
+						<div class="card-body msg_card_body reversed-flex" id="msgs_body">
 							<div class="d-flex justify-content-start mb-4" th:each="m : ${msgs}">
 								<div class="msg_cotainer">
 									<div class="d-flex firstline">
