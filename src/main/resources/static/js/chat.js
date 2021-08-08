@@ -5,11 +5,12 @@ $('#action_menu_btn').click(function(){
 	});
 
 /////////////////////////////////////////////////////////////////КОД ДАШИ
-function someFunc(tagid){
+function someFunc(){
 	//console.log('Функция вызвана');
 	//https://learn.javascript.ru/xmlhttprequest
 	//XMLHttpRequest - встроенный в браузер объект, который даёт возможность делать HTTP-запросы к серверу без перезагрузки страницы
 	var xhr = new XMLHttpRequest();
+	let tagid = 1;
 	//Инициализация. Только конфигурирует запрос
 	//Так как GET запрос, параметры записаны в url
 	xhr.open("GET", "/getTagMsgs?tagid="+tagid, true);
