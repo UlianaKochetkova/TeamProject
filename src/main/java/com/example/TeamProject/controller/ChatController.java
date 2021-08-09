@@ -161,13 +161,12 @@ public class ChatController {
 ///////////////////////////////////////  Добавление чата  ////////////////////////////////////////////////
     @PostMapping("/addChat")
     public String addChat(@RequestParam User[] users, Chat chat, Model model){
+        chatRepo.save(chat);
         //Добавляем связку "чат - пользователь"
         for (int i=0; i<users.length; i++){
-            //System.out.println(users[i].getUsername());
             User_Chat uc = new User_Chat(users[i],chat);
             userChatRepo.save(uc);
         }
-        chatRepo.save(chat);
         return chat1(model);
     }
 }

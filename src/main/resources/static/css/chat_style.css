@@ -12,10 +12,20 @@
 	        background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
 		}
 		/*----------------------------------------------------------------------------*/
-		.newTag{
-			display:flex;
-			border: 2px solid red;
+		/*.newTag{*/
+		/*	display:flex;*/
+		/*	border: 2px solid red;*/
+		/*}*/
+		.addtoken{
+			margin-left:20px;
 		}
+		.newToken{
+				display:flex;
+				/*border: 2px solid red;*/
+				margin-top:inherit;
+				margin-bottom: 7px;
+		}
+
 		.background{
 			display:flex;
 			padding:30px;
@@ -40,9 +50,8 @@
 		}
 		.buttons{
 			display:flex;
-			width:70%;
+			width:100%;
 			justify-content: space-between;
-			/*border: 3px solid red;*/
 			margin-top:inherit;
 			margin-bottom: -5px;
 		}
@@ -64,7 +73,6 @@
 			color:black;
 			border-radius: 15px !important;
 			border: 2px solid #282c45;
-
 		}
 		.crheader{
 			display:flex;

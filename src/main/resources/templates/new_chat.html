@@ -173,8 +173,8 @@
 <!--									</div>-->
 
 								<div class="buttons">
-									<button class="input-group-text createbutton" type="submit">Create chat!</button>
 									<button class="input-group-text createbutton" id="cancel" type="reset">Cancel</button>
+									<button class="input-group-text createbutton" id="next" type="submit">Next</button>
 								</div>
 
 								</form>
@@ -182,6 +182,39 @@
 						</div>
 					</div>
 			</div>
+			</div>
+		</div>
+<!--		ВТОРАЯ СТРАНИЦА-->
+		<div id="hide2">
+			<div class="background">
+				<div class="back1">
+					<div class="container-fluid">
+						<div class="row justify-content-center">
+							<div class="card-body msg_card_body">
+
+								<h3 class="crheader"> Create New Chat</h3>
+								<h5 class="crheader"> Add tags to this chat</h5>
+
+								<label class="label">Enter name</label>
+								<input class="form-control type_msg chatinput" type="text" name="title" placeholder="Tag name" required>
+<!--								Добавить выбор цвета-->
+								<label class="label">Color</label>
+								<input type="color">
+
+								<label class="label">Enter token</label>
+								<div class="newToken">
+									<input class="form-control type_msg chatinput" type="text" name="title" placeholder="Token name" required>
+									<button class="input-group-text createbutton addtoken" type="reset">Add token</button>
+								</div>
+
+									<div class="buttons">
+										<button class="input-group-text createbutton" id="back1" type="reset">Back</button>
+										<button class="input-group-text createbutton" id="create" type="submit">Create chat!</button>
+									</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 <!----------------------------------------------------------Информация о чате -->

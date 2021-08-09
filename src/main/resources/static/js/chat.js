@@ -28,6 +28,11 @@ $('#action_menu_btn').click(function(){
 
 		$('#userpage').hide();
 
+		$("#hide2").hide();
+		$('#next').click(function(){
+			$("#hide").hide();
+			$("#hide2").show();
+		});
 	});
 
 //TODO: AJAX
