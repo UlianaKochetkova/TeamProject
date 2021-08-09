@@ -33,6 +33,7 @@ public class ChatController {
     @Autowired
     private UserChatRepository userChatRepo;
 
+//    Базовая версия chat1
     @GetMapping("/chat")
     public String chat(Model model){
         model.addAttribute("msg",messageRepo.findAll());
@@ -79,7 +80,50 @@ public class ChatController {
         return chat1(model);
     }
 
-/////////////////////////////////////////////////////////////////////
+///////////////////////////////   ЧАТ  ////////////////////////////////////////////////////
+
+    @GetMapping("/chat/{id}")
+    public String getChat(@PathVariable("id") Integer id, Model model){
+        //забрать сообщения по id
+        List<Message> lst=messageRepo.findAllByChat_Id(id);
+        lst.sort(Comparator.comparing(Message::getCreate_date).reversed());
+
+        model.addAttribute("chats",chatRepo.findAll());
+        model.addAttribute("chat",chatRepo.findChatById(id));
+        //теги нужно забрать по чату
+        model.addAttribute("tags",tagRepo.findAllByChat_Id(id));
+        model.addAttribute("msgs", lst);
+        model.addAttribute("mt",messageTagRepo);
+        model.addAttribute("users",userRepo.findAll());
+        return "new_chat";
+    }
+
+    @PostMapping("/chat/{id}")
+    public String getMsg(@PathVariable("id") Integer id,Message msg, Model model){
+        //Устанавливаем current time
+        msg.setCreate_date(new Date());
+        //Устанавливаем текущего юзера?
+        //Пока установлю базового user1
+        msg.setUser(userRepo.findUserByUsername("user1"));
+        msg.setChat(chatRepo.findChatById(id));
+        messageRepo.save(msg);
+
+        //Расставляем тэги
+        science.Message scienceMessage = new science.Message(msg.getText());
+        List<Message_Tag> messageTags = new ArrayList<>();
+        for (science.Tag messageTag : scienceMessage.getListMessageTags()) {
+            Message_Tag message_tag = new Message_Tag();
+            message_tag.setMessage(msg);
+            message_tag.setTag(tagRepo.findTagById(messageTag.ordinal()));
+            messageTags.add(message_tag);
+        }
+        messageTags.forEach(messageTagRepo::save);
+        //
+        return getChat(id,model);
+    }
+
+
+////////////////////////////////  ТЕГИ  /////////////////////////////////////
     @GetMapping("/tag/{id}")
     public String getTag(@PathVariable("id") Integer id, Model model){
         //model.addAttribute("curtag",tagRepo.findTagById(id));
@@ -114,6 +158,7 @@ public class ChatController {
         return json;
     }
 
+///////////////////////////////////////  Добавление чата  ////////////////////////////////////////////////
     @PostMapping("/addChat")
     public String addChat(@RequestParam User[] users, Chat chat, Model model){
         //Добавляем связку "чат - пользователь"

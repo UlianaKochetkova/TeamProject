@@ -6,6 +6,10 @@ $('#action_menu_btn').click(function(){
 		$("#hide").hide();
 		$('.add_btn').click(function(){
 			$('#hide').show();
+			$('#newTag').click(function(){
+				$('.newTag').show();
+			});
+			$('.newTag').hide();
 			$('#hide').css("margin", "auto");
 		});
 
@@ -21,11 +25,36 @@ $('#action_menu_btn').click(function(){
 		$('#back').click(function(){
 			$("#chatinform").hide();
 		});
+
+		$('#userpage').hide();
+
 	});
 
-//document.getElementById('submit').addEventListener('click', load);
+//TODO: AJAX
+	//Функция, которая получает id чата из левого меню и отображает чат справа
+	//закреплена на блоке в списке слева
+	function toChat(id){
+	console.log(id);
+	}
+
+	//TODO: AJAX
+	//Функция, которая получает id юзера, чью страницу нужно вывести
+	//Закреплена за именем пользователя на сообщении
+	function toUser(id){
+		console.log(id);
+		//$('#userpage').show();
+	}
+
+	//TODO: AJAX
+	//Функция, которая получает id чата, информацию о котором нужно вывести
+	//закреплена на кнопке справа в шапке чата
+	function aboutChat(id){
+
+	}
+
 /////////////////////////////////////////////////////////////////КОД ДАШИ
 function someFunc(){
+
 	//console.log('Функция вызвана');
 	//https://learn.javascript.ru/xmlhttprequest
 //XMLHttpRequest - встроенный в браузер объект, который даёт возможность делать HTTP-запросы к серверу без перезагрузки страницы

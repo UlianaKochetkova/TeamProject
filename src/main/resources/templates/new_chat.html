@@ -15,7 +15,7 @@
 		<link rel="stylesheet" th:href="@{/css/chat_style.css}"/>
 <!--		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">-->
 
-		<script src="js/chat.js"></script>
+		<script src="/js/chat.js"></script>
 	</head>
 	<body>
 		<div class="container-fluid h-100">
@@ -38,12 +38,12 @@
 						<ui class="contacts" th:each="c : ${chats}">
 
 						<li class="active">
-							<div class="d-flex bd-highlight">
+							<div class="d-flex bd-highlight" th:attr="onclick=|toChat('${c.getId()}')|">
 								<div class="img_cont">
 									<img src="" class="rounded-circle user_img">
 									<span class="online_icon"></span>
 								</div>
-								<div class="user_info">
+								<div class="user_info" >
 									<span th:text="${c.getTitle()}"></span>
 									<p th:text="${c.getDescription()}"></p>
 								</div>
@@ -84,8 +84,8 @@
 									<p><span th:text="${msgs.size()}"/> Messages</p>
 								</div>
 								</div>
-								<!--	Кнопка информации по чату				-->
-								<button class="input-group-text chatbut" type="submit">
+								<!--	   Кнопка информации по чату			-->
+								<button th:attr="onclick=|aboutChat('${chat.getId()}')|" class="input-group-text chatbut" type="submit">
 									<i class="fa fa-comments" aria-hidden="true"></i>
 								</button>
 							</div>
@@ -111,7 +111,8 @@
 								<div class="msg_cotainer">
 									<div class="d-flex firstline">
 										<div class="topmsg">
-											<a class="username text-dark" th:href="@{/user/{id}(id=${m.getUser().getId()})}" th:text="${m.getUser().getUsername()}" target="_blank"></a>
+<!--											<a class="username text-dark" th:href="@{/user/{id}(id=${m.getUser().getId()})}" th:text="${m.getUser().getUsername()}" target="_blank"></a>-->
+											<a class="username text-dark" th:attr="onclick=|toUser('${m.getUser().getId()}')|" th:text="${m.getUser().getUsername()}"></a>
 										</div>
 										<div class="tagblock">
 											<div th:each="t : ${mt.findAllByMessage_Id(m.getId())}">
@@ -127,7 +128,8 @@
 
 						<!--	ВВОД СООБЩЕНИЯ					-->
 						<div class="card-footer">
-							<form th:action="@{/chat1}" method="post">
+<!--							<form th:action="@{/chat1}" method="post">-->
+                            <form method="post">
 								<div class="input-group-append">
 									<input class="form-control type_msg" type="text" name="text" placeholder="Enter your text here">
 									<button class="input-group-text send_btn" type="submit">
@@ -161,6 +163,15 @@
 										<option th:each="u : ${users}" th:value="${{u}}" th:text="${u.getUsername()}">
 									</select>
 
+<!--									<button class="input-group-text createbutton" id="newTag" type="submit">Add tag to this chat</button>-->
+<!--									<div class="newTag">-->
+<!--										<form id="newToken" class="newToken">-->
+<!--										<input class="form-control type_msg chatinput" type="text" name="title" placeholder="Token" required>-->
+<!--										<button class="input-group-text createbutton" id="addToken" type="submit">Add to this tag</button>-->
+<!--										</form>-->
+<!--										<button class="input-group-text createbutton" id="addTag" type="submit">Save this tag</button>-->
+<!--									</div>-->
+
 								<div class="buttons">
 									<button class="input-group-text createbutton" type="submit">Create chat!</button>
 									<button class="input-group-text createbutton" id="cancel" type="reset">Cancel</button>
@@ -174,6 +185,7 @@
 			</div>
 		</div>
 <!----------------------------------------------------------Информация о чате -->
+<!--		TODO: нормально написать Id-->
 		<div id="chatinform">
 		<div class="background">
 				<div class="back1">
@@ -183,6 +195,24 @@
 								<h3 class="crheader"> Chat information</h3>
 								<div class="buttons">
 									<button class="input-group-text createbutton" id="back" type="reset">Back to chat</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+<!--------------------------------------  Страниуа юзера-------------------------------------------	-->
+		<div id="userpage">
+			<div class="background">
+				<div class="back1">
+					<div class="container-fluid">
+						<div class="row justify-content-center">
+							<div class="card-body msg_card_body">
+								<h3 class="crheader"></h3>
+								<div class="buttons">
+									<button class="input-group-text createbutton" id="ok" type="reset">Back to chat</button>
 								</div>
 							</div>
 						</div>
