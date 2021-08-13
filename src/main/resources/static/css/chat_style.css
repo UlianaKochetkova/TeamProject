@@ -19,6 +19,7 @@
 		.addtoken{
 			margin-left:20px;
 		}
+
 		.newToken{
 				display:flex;
 				/*border: 2px solid red;*/
@@ -55,6 +56,7 @@
 			margin-top:inherit;
 			margin-bottom: -5px;
 		}
+
 		.selecting{
 			width:100%;
 		}
@@ -303,6 +305,7 @@
 		     box-shadow:none !important;
            outline:0px !important;
 		}
+
 		.type_msg{
 			background-color: rgba(0,0,0,0.3) !important;
 			border:0 !important;

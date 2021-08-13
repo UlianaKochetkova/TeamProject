@@ -44,6 +44,12 @@ public class ChatController {
         return "chat";
     }
 
+    //redirect для security
+    @GetMapping
+    public String redirect(Model model){
+        return "redirect:/chat/1";
+    }
+
     @GetMapping("/chat1")
     public String chat1(Model model){
         List<Message> lst=messageRepo.findAll();
@@ -142,21 +148,21 @@ public class ChatController {
         return "new_chat";
     }
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String getTag1(Integer id){
-        System.out.println("Функция вызвана");
-        //model.addAttribute("curtag",tagRepo.findTagById(id));
-//        List<Message_Tag> mt=messageTagRepo.findAllByTag(tagRepo.findTagById(id));
-        List<Message_Tag> mt=messageTagRepo.findAllByTag_Id(id);
-        ArrayList<Message> tagmsg=new ArrayList<Message>();
-        for (int i=0;i<mt.size(); i++){
-            tagmsg.add(mt.get(i).getMessage());
-        }
-        tagmsg.sort(Comparator.comparing(Message::getCreate_date));
-        String json = new Gson().toJson(tagmsg);
-        System.out.println(json);
-        return json;
-    }
+//    @RequestMapping(method = RequestMethod.GET)
+//    public String getTag1(Integer id){
+//        System.out.println("Функция вызвана");
+//        //model.addAttribute("curtag",tagRepo.findTagById(id));
+////        List<Message_Tag> mt=messageTagRepo.findAllByTag(tagRepo.findTagById(id));
+//        List<Message_Tag> mt=messageTagRepo.findAllByTag_Id(id);
+//        ArrayList<Message> tagmsg=new ArrayList<Message>();
+//        for (int i=0;i<mt.size(); i++){
+//            tagmsg.add(mt.get(i).getMessage());
+//        }
+//        tagmsg.sort(Comparator.comparing(Message::getCreate_date));
+//        String json = new Gson().toJson(tagmsg);
+//        System.out.println(json);
+//        return json;
+//    }
 
 ///////////////////////////////////////  Добавление чата  ////////////////////////////////////////////////
     @PostMapping("/addChat")

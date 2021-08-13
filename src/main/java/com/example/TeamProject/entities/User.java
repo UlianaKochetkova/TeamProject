@@ -12,9 +12,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
-    String phoneNum;
     String username;
     String password;
+    @Column(name="phone")
+    String phoneNum;
+
+    //for spring security
+    Boolean active;
 
     public Integer getId() {
         return id;
@@ -46,5 +50,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 }

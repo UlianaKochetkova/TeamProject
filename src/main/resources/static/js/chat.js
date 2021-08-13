@@ -77,7 +77,6 @@ xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 	xhr.onload = function() {
 //		console.log('Функция вызвана');
 		if (xhr.status === 200) {
-			//TODO:Что здесь за действие?
 			//Обработка того, что пришло с бэка
 			//jQuery эквивалетно - success
 			//doSomeAction(xhr.responseText, param1);
