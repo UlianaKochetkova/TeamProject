@@ -44,7 +44,6 @@ public class DataLoader {
         u1.setUsername("user1");
         u1.setPhoneNum("+12345678901");
         u1.setPassword(passwordEncoder.encode("admin"));
-        u1.setActive(true);
         u2.setUsername("user2");
         u2.setPhoneNum("+98765432109");
         userRepo.save(u1);

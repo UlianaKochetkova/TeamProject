@@ -51,7 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .dataSource(dataSource)
                 //.passwordEncoder(NoOpPasswordEncoder.getInstance())
                 .passwordEncoder(encoder())
-                .usersByUsernameQuery("select phone, password, active from usr where phone=?")
+                .usersByUsernameQuery("select phone, password, true from usr where phone=?")
                 .authoritiesByUsernameQuery("select phone, 'default' from usr where phone=?");
     }
 

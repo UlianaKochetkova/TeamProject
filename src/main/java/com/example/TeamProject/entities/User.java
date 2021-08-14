@@ -17,8 +17,6 @@ public class User {
     @Column(name="phone")
     String phoneNum;
 
-    //for spring security
-    Boolean active;
 
     public Integer getId() {
         return id;
@@ -52,11 +50,4 @@ public class User {
         this.password = password;
     }
 
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
 }
