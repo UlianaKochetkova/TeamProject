@@ -5,13 +5,13 @@ import java.util.Map;
 
 public class NLPManager {
     KeyWordsCollector keyWordsCollector;
-    Map<Tag, String> PATHS = new HashMap<>();
+    private Map<Tag, String> PATHS = new HashMap<>();
 
     public NLPManager() {
-        PATHS.put(Tag.SPAM, "/dictionaries/spam.dict");
-        PATHS.put(Tag.VKONTAKTE, "/dictionaries/vkontakte.dict");
-        PATHS.put(Tag.TIKTOK, "/dictionaries/tiktok.dict");
-        PATHS.put(Tag.INSTAGRAM, "/dictionaries/instagram.dict");
+        PATHS.put(new Tag("SPAM", -1), "/dictionaries/spam.dict");
+        PATHS.put(new Tag("VKONTAKTE", -1), "/dictionaries/vkontakte.dict");
+        PATHS.put(new Tag("TIKTOK", -1), "/dictionaries/tiktok.dict");
+        PATHS.put(new Tag("INSTAGRAM", -1), "/dictionaries/instagram.dict");
         this.keyWordsCollector = new KeyWordsCollector(PATHS);
     }
 }

@@ -44,7 +44,7 @@ public class KeyWordsCollector {
         if (keyWords.containsKey(word)) {
             return keyWords.get(word);
         } else {
-            return new TokenTag(Tag.NO_TAG, 0);
+            return new TokenTag(Tag.emptyTag(), 0);
         }
     }
 }

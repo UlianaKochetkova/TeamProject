@@ -9,7 +9,7 @@ public class Token {
 
     public Token(String value) {
         this.value = value;
-        tag = Application.nlpManager.keyWordsCollector.getToken(value);
+        this.tag = Application.nlpManager.keyWordsCollector.getToken(value);
     }
 
     public TokenTag getTag() {
