@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <title>Security</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
+  <link rel="stylesheet" th:href="@{/css/chat_style.css}"/>
+  <link rel="stylesheet" th:href="@{/css/login_style.css}"/>
+
+  <script type="text/javascript">
+    function changeLoc(){
+      document.location.href="/login";
+    }
+  </script>
+</head>
+<body>
+
+<div class="background">
+  <div class="back1">
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="card-body msg_card_body">
+          <h3 class="crheader">Registration</h3>
+          <div th:text="${message}"></div>
+          <form  th:action="@{/registration}" method="post">
+            <label class="label">Phonenumber</label>
+            <input class="form-control type_msg" style="margin-top: 7px; margin-bottom: 7px" type="text" name="phoneNum" placeholder="Phone" required>
+            <label class="label">Username</label>
+            <input class="form-control type_msg" style="margin-top: 7px; margin-bottom: 7px" type="text" name="username" placeholder="Username" required>
+            <label class="label">Password</label>
+            <input class="form-control type_msg" style="margin-top: 7px; margin-bottom: 7px" type="text" name="password" placeholder="Password" required>
+            <div class="login_buttons">
+              <button class="input-group-text createbutton" style="margin-top: 7px; margin-bottom: 7px" type="submit" value="Sign In">Create New User</button>
+              <button class="input-group-text createbutton" style="margin-top: 7px; margin-bottom: 7px" type="button" value="Back" onclick="changeLoc()">Back to Sign In</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

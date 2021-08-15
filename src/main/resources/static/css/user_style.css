@@ -19,3 +19,19 @@
     display: flex;
     flex-direction: column;
 }
+
+.userli{
+    display:flex;
+    border: 2px solid red;
+    justify-content: space-between;
+}
+
+li{
+    list-style-type: none;
+}
+hr{
+    border: none; /* Убираем границу для браузера Firefox */
+    background-color: white;
+    color: white;
+    height:1px;
+}

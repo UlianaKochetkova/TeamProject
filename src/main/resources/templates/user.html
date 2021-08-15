@@ -12,19 +12,26 @@
     <link rel="stylesheet" th:href="@{/css/user_style.css}"/>
 </head>
 <body>
-<div class="container-fluid h-100">
-    <div class="row justify-content-center h-100">
-        <div class="col-md-8 col-xl-6">
-            <div class="card">
-                <div class="msg_cotainer">
-                    <div class="d-flex firstline user_container">
-                        <div class="userphoto img_cont">
-                            <img src="https://ichef.bbci.co.uk/news/640/cpsprodpb/2F39/production/_103498021_gettyimages-475636556.jpg">
+<div id="userpage">
+    <div class="background">
+        <div class="back1">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="card-body msg_card_body">
+                        <h3 class="crheader" th:text="${user.getUsername()}"></h3>
+                        <ul>
+                            <hr>
+                            <li>
+                                <div class="userli">
+                                    <label class="label">Phone number:</label>
+                                    <span th:text="${user.getPhoneNum()}"></span>
+                                </div>
+                            </li>
+                        </ul>
+
+                        <div class="buttons">
+                            <button class="input-group-text createbutton" id="ok" type="reset">Back to chat</button>
                         </div>
-                        <div class="topmsg">
-                            <span class="username_user username text-dark" th:text="${user.getUsername()}"></span>
-                        </div>
-                        <span th:text="${user.getPhoneNum()}"></span>
                     </div>
                 </div>
             </div>

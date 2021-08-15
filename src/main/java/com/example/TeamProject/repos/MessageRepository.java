@@ -11,4 +11,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface MessageRepository extends JpaRepository<Message, Integer> {
     Message findMessageById(Integer id);
 	List<Message> findAllByChat(Chat chat);
+    List<Message> findAllByChat_Id(Integer chatId);
 }

@@ -1,10 +1,8 @@
 package com.example.TeamProject.controller;
 
-import com.example.TeamProject.entities.Chat;
-import com.example.TeamProject.entities.Message;
-import com.example.TeamProject.entities.Message_Tag;
-import com.example.TeamProject.entities.Tag;
+import com.example.TeamProject.entities.*;
 import com.example.TeamProject.repos.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -36,9 +34,10 @@ public class ChatController {
 
     @Autowired
     private UserChatRepository userChatRepo;
-    
+
     HashMap<String, Object> cachedData = new HashMap<String, Object>();
 
+//    Базовая версия chat1
     @GetMapping("/chat")
     public String chat(Model model){
         model.addAttribute("msg",messageRepo.findAll());
@@ -49,6 +48,12 @@ public class ChatController {
         return "chat";
     }
 
+    //redirect для security
+    @GetMapping
+    public String redirect(Model model){
+        return "redirect:/chat/1";
+    }
+
     @GetMapping("/chat1")
     public String chat1(Model model){
         // Запоминаем текущий чат, сообщения текущего чат и текущий тег в "кэше"
@@ -57,7 +62,7 @@ public class ChatController {
         lst.sort(Comparator.comparing(Message::getCreate_date));
         cachedData.put("msgs", lst);
         cachedData.put("currTag", tagRepo.findTagByName("Main"));
-        
+
         model.addAttribute("chat", cachedData.get("currChat"));
         model.addAttribute("tags", tagRepo.findAllByChat((Chat)cachedData.get("currChat")));
         model.addAttribute("msgs", cachedData.get("msgs"));
@@ -99,6 +104,51 @@ public class ChatController {
         	return getTagMsgs(((Tag)cachedData.get("currTag")).getId().toString(), model);
         }
     }
+
+///////////////////////////////   ЧАТ  ////////////////////////////////////////////////////
+
+    @GetMapping("/chat/{id}")
+    public String getChat(@PathVariable("id") Integer id, Model model){
+        //забрать сообщения по id
+        List<Message> lst=messageRepo.findAllByChat_Id(id);
+        lst.sort(Comparator.comparing(Message::getCreate_date).reversed());
+
+        model.addAttribute("chats",chatRepo.findAll());
+        model.addAttribute("chat",chatRepo.findChatById(id));
+        //теги нужно забрать по чату
+        model.addAttribute("tags",tagRepo.findAllByChat_Id(id));
+        model.addAttribute("msgs", lst);
+        model.addAttribute("mt",messageTagRepo);
+        model.addAttribute("users",userRepo.findAll());
+        return "new_chat";
+    }
+
+    @PostMapping("/chat/{id}")
+    public String getMsg(@PathVariable("id") Integer id,Message msg, Model model){
+        //Устанавливаем current time
+        msg.setCreate_date(new Date());
+        //Устанавливаем текущего юзера?
+        //Пока установлю базового user1
+        msg.setUser(userRepo.findUserByUsername("user1"));
+        msg.setChat(chatRepo.findChatById(id));
+        messageRepo.save(msg);
+
+        //Расставляем тэги
+        science.Message scienceMessage = new science.Message(msg.getText());
+        List<Message_Tag> messageTags = new ArrayList<>();
+        for (science.Tag messageTag : scienceMessage.getListMessageTags()) {
+            Message_Tag message_tag = new Message_Tag();
+            message_tag.setMessage(msg);
+            message_tag.setTag(tagRepo.findTagById(messageTag.ordinal()));
+            messageTags.add(message_tag);
+        }
+        messageTags.forEach(messageTagRepo::save);
+        //
+        return getChat(id,model);
+    }
+
+
+////////////////////////////////  ТЕГИ  /////////////////////////////////////
 /* Старый маппинг тегов
 /////////////////////////////////////////////////////////////////////
     @GetMapping("/tag/{id}")

@@ -7,8 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface TagRepository extends JpaRepository<Tag, Integer> {
-//    Задел на будущее
-    List<Tag> findAllByChat(Chat chat);
+    List<Tag> findAllByChat_Id(Integer id);
     Tag findTagById(Integer id);
     Tag findTagByName(String name);
 }

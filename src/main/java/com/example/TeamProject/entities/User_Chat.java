@@ -16,6 +16,15 @@ public class User_Chat {
     @JoinColumn(name="chat_id")
     Chat chat;
 
+    public User_Chat() {
+
+    }
+
+    public User_Chat(User user, Chat chat) {
+        this.user = user;
+        this.chat = chat;
+    }
+
     public Integer getId() {
         return id;
     }

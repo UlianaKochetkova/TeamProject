@@ -3,6 +3,7 @@ package com.example.TeamProject;
 import com.example.TeamProject.entities.*;
 import com.example.TeamProject.repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -28,6 +29,9 @@ public class DataLoader {
     @Autowired
     private UserChatRepository userChatRepo;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @PostConstruct
     public void loadData(){
         Chat chat=new Chat();
@@ -39,6 +43,7 @@ public class DataLoader {
         User u2=new User();
         u1.setUsername("user1");
         u1.setPhoneNum("+12345678901");
+        u1.setPassword(passwordEncoder.encode("admin"));
         u2.setUsername("user2");
         u2.setPhoneNum("+98765432109");
         userRepo.save(u1);
