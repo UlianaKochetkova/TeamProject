@@ -37,17 +37,6 @@ public class ChatController {
 
     HashMap<String, Object> cachedData = new HashMap<String, Object>();
 
-//    Базовая версия chat1
-    @GetMapping("/chat")
-    public String chat(Model model){
-        model.addAttribute("msg",messageRepo.findAll());
-        List<Message> lst=messageRepo.findAll();
-        for (int i=0; i<lst.size(); i++){
-            System.out.println(lst.get(i).getUser().getUsername()+": "+lst.get(i).getText());
-        }
-        return "chat";
-    }
-
     //redirect для security
     @GetMapping
     public String redirect(Model model){
@@ -105,7 +94,7 @@ public class ChatController {
         }
     }
 
-///////////////////////////////   ЧАТ  ////////////////////////////////////////////////////
+///////////////////////////////   ЧАТ ПО ID ////////////////////////////////////////////////////
 
     @GetMapping("/chat/{id}")
     public String getChat(@PathVariable("id") Integer id, Model model){
