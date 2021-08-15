@@ -39,6 +39,11 @@ public class DataLoader {
         chat.setDescription("d1");
         chatRepo.save(chat);
 
+        Chat chat2=new Chat();
+        chat2.setTitle("chat2");
+        chat2.setDescription("d2");
+        chatRepo.save(chat2);
+
         User u1=new User();
         User u2=new User();
         u1.setUsername("user1");

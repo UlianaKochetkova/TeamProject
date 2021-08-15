@@ -31,7 +31,7 @@
 						<ui class="contacts" th:each="c : ${chats}">
 
 						<li class="active">
-							<div class="d-flex bd-highlight" th:attr="onclick=|toChat('${c.getId()}')|">
+							<div class="d-flex bd-highlight" th:attr="onclick=|getChat('${c.getId()}')|">
 								<div class="img_cont">
 									<img src="" class="rounded-circle user_img">
 									<span class="online_icon"></span>
@@ -61,7 +61,7 @@
 				</div>
 
 				<!--	   ШАПКА			-->
-				<div class="col-md-8 col-xl-6 chat">
+				<div class="col-md-8 col-xl-6 chat" id="chat_body">
 					<div class="card">
 						<div class="card-header msg_head">
 							<div class="d-flex bd-highlight hd">

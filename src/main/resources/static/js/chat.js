@@ -35,14 +35,14 @@ $('#action_menu_btn').click(function(){
 		});
 	});
 
-//TODO: AJAX
+
 	//Функция, которая получает id чата из левого меню и отображает чат справа
 	//закреплена на блоке в списке слева
 	function toChat(id){
 	console.log(id);
 	}
 
-	//TODO: AJAX
+
 	//Функция, которая получает id юзера, чью страницу нужно вывести
 	//Закреплена за именем пользователя на сообщении
 	function toUser(id){
@@ -50,14 +50,14 @@ $('#action_menu_btn').click(function(){
 		//$('#userpage').show();
 	}
 
-	//TODO: AJAX
+
 	//Функция, которая получает id чата, информацию о котором нужно вывести
 	//закреплена на кнопке справа в шапке чата
 	function aboutChat(id){
 
 	}
 
-/////////////////////////////////////////////////////////////////КОД ДАШИ
+/////////////////////////////////////////////////////////////////
 function getTagMsgs(tagid){
 	//https://learn.javascript.ru/xmlhttprequest
 //XMLHttpRequest - встроенный в браузер объект, который даёт возможность делать HTTP-запросы к серверу без перезагрузки страницы
@@ -100,3 +100,18 @@ function getMsg(event){
 	event.preventDefault();
 	return false;
 }
+
+////////////////////////////////////////////////
+	function getChat(id){
+		var xhr = new XMLHttpRequest();
+		xhr.open("GET", "/chat?id="+id, true);
+		xhr.send();
+		xhr.onload = function() {
+			console.log(`Загружено: ${xhr.status} ${xhr.response}`);
+			if (xhr.status === 200) {
+				document.getElementById("chat_body").innerHTML = xhr.response;
+			} else {
+				alert('Request failed. Returned status of ' + xhr.status);
+			}
+		};
+	}

@@ -56,6 +56,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authoritiesByUsernameQuery("select phone, 'default' from usr where phone=?");
     }
 
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web
+                .ignoring()
+                .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/img/**", "/icon/**");
+    }
 //    @Bean
 //    public AuthenticationSuccessHandler myAuthenticationSuccessHandler(){
 //        return new MySimpleUrlAuthenticationSuccessHandler();
