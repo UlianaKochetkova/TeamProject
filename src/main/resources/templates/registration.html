@@ -27,11 +27,11 @@
           <div th:text="${message}"></div>
           <form  th:action="@{/registration}" method="post">
             <label class="label">Phonenumber</label>
-            <input class="form-control type_msg" style="margin-top: 7px; margin-bottom: 7px" type="text" name="phoneNum" placeholder="Phone" required>
+            <input class="form-control type_msg" style="margin-top: 7px; margin-bottom: 7px" type="text" name="phoneNum" placeholder="Phone">
             <label class="label">Username</label>
-            <input class="form-control type_msg" style="margin-top: 7px; margin-bottom: 7px" type="text" name="username" placeholder="Username" required>
+            <input class="form-control type_msg" style="margin-top: 7px; margin-bottom: 7px" type="text" name="username" placeholder="Username">
             <label class="label">Password</label>
-            <input class="form-control type_msg" style="margin-top: 7px; margin-bottom: 7px" type="text" name="password" placeholder="Password" required>
+            <input class="form-control type_msg" style="margin-top: 7px; margin-bottom: 7px" type="password" name="password" placeholder="Password">
             <div class="login_buttons">
               <button class="input-group-text createbutton" style="margin-top: 7px; margin-bottom: 7px" type="submit" value="Sign In">Create New User</button>
               <button class="input-group-text createbutton" style="margin-top: 7px; margin-bottom: 7px" type="button" value="Back" onclick="changeLoc()">Back to Sign In</button>
