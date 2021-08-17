@@ -10,4 +10,8 @@ public interface TagRepository extends JpaRepository<Tag, Integer> {
 //    Задел на будущее
     List<Tag> findAllByChat(Chat chat);
     Tag findTagById(Integer id);
+
+    boolean existsByName(String name);
+
+    Tag findByName(String name);
 }

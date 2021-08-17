@@ -1,7 +1,9 @@
 package com.example.TeamProject.controller;
 
+import com.example.TeamProject.Application;
 import com.example.TeamProject.entities.Message;
 import com.example.TeamProject.entities.Message_Tag;
+import com.example.TeamProject.entities.Tag;
 import com.example.TeamProject.repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -65,15 +67,32 @@ public class ChatController {
         msg.setUser(userRepo.findUserByUsername("user1"));
         msg.setChat(chatRepo.findChatByTitle("chat1"));
         messageRepo.save(msg);
+        //Tags
+        Application.nlpManager.addMessage(msg.getText());
+
+        for (science.Tag tag : Application.nlpManager.keyWordsCollector.getTags()) {
+            if (!tagRepo.existsByName(tag.getLabel())) {
+                Tag tagEntity = new Tag();
+                tagEntity.setName(tag.getLabel());
+                tagEntity.setColor("#03fcdb");
+
+                tagRepo.save(tagEntity);
+            }
+        }
+
+        Application.nlpManager.keyWordsCollector.getTags()
+                .forEach(tag -> System.out.print(tag.getLabel()));
         science.Message scienceMessage = new science.Message(msg.getText());
+
         List<Message_Tag> messageTags = new ArrayList<>();
         for (science.Tag messageTag : scienceMessage.getListMessageTags()) {
             Message_Tag message_tag = new Message_Tag();
             message_tag.setMessage(msg);
-            message_tag.setTag(tagRepo.findTagById(messageTag.ordinal()));
+            message_tag.setTag(tagRepo.findByName(messageTag.getLabel()));
             messageTags.add(message_tag);
         }
         messageTags.forEach(messageTagRepo::save);
+        //
         return chat1(model);
     }
 

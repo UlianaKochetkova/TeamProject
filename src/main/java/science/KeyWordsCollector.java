@@ -4,18 +4,21 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class KeyWordsCollector {
     private Map<Tag, String> paths;
     private Map<String, TokenTag> keyWords;
 
-    public KeyWordsCollector(Map<Tag, String> paths) {
+    public KeyWordsCollector(List<Tag> tags, Map<Tag, String> paths) {
+        keyWords = tags.stream()
+                .collect(
+                        Collectors.toMap(
+                                Tag::getValue,
+                                tag -> new TokenTag(tag, 1)));
         this.paths = paths;
-
-        keyWords = new HashMap<>();
-
         readAllDictionaries();
     }
 
@@ -41,10 +44,18 @@ public class KeyWordsCollector {
     }
 
     public TokenTag getToken(String word) {
+        word = word.toLowerCase().replaceAll("\\pP", "");
         if (keyWords.containsKey(word)) {
             return keyWords.get(word);
         } else {
             return new TokenTag(Tag.emptyTag(), 0);
         }
+    }
+
+    public List<Tag> getTags() {
+        return keyWords.values()
+                .stream()
+                .map(TokenTag::getTag)
+                .collect(Collectors.toList());
     }
 }

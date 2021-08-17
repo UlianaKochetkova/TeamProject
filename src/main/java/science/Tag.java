@@ -1,23 +1,38 @@
 package science;
 
 public class Tag {
+    private static int maxId = 4;
+    private int id;
     private String label;
-    private int importance;
+    private String value;
 
-    public Tag(String label, int importance) {
+    public Tag(int id, String label) {
+        this.id = id;
         this.label = label;
-        this.importance = importance;
+        this.value = label.toLowerCase().replaceAll("\\pP", "");
     }
 
     public static Tag emptyTag() {
-        return new Tag("NO_TAG", 0);
+        return new Tag(0, "NO_TAG");
+    }
+
+    public static Tag spamTag() {
+        return new Tag(1, "SPAM");
+    }
+
+    public static int getNewId() {
+        return ++maxId;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getLabel() {
         return label;
     }
 
-    public int getImportance() {
-        return importance;
+    public String getValue() {
+        return value;
     }
 }
