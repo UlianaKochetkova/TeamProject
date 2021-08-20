@@ -83,6 +83,7 @@ public class ChatController {
             if (!tagRepo.existsByName(tag.getLabel())) {
                 Tag tagEntity = new Tag();
                 tagEntity.setName(tag.getLabel());
+                //Добавить цвет вот тут
                 tagEntity.setColor("#03fcdb");
                 tagEntity.setChat((Chat)cachedData.get("currChat"));
 

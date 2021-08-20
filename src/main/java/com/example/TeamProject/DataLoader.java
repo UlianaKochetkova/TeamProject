@@ -31,6 +31,12 @@ public class DataLoader {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private RoleRepository roleRepo;
+
+    @Autowired
+    private UserRoleRepository userRoleRepo;
+
     @PostConstruct
     public void loadData(){
         Chat chat=new Chat();
@@ -43,6 +49,11 @@ public class DataLoader {
         chat2.setDescription("d2");
         chatRepo.save(chat2);
 
+        Role r1=new Role("User");
+        Role r2=new Role("Admin");
+        roleRepo.save(r1);
+        roleRepo.save(r2);
+
         User u1=new User();
         User u2=new User();
         u1.setUsername("user1");
@@ -53,6 +64,16 @@ public class DataLoader {
         u2.setPassword(passwordEncoder.encode("user"));
         userRepo.save(u1);
         userRepo.save(u2);
+
+        User_Roles ur=new User_Roles();
+        ur.setUser(u1);
+        ur.setRole(roleRepo.findRoleByName("Admin"));
+        userRoleRepo.save(ur);
+
+        User_Roles ur1=new User_Roles();
+        ur1.setUser(u2);
+        ur1.setRole(roleRepo.findRoleByName("User"));
+        userRoleRepo.save(ur1);
 
         User_Chat uc=new User_Chat();
 
