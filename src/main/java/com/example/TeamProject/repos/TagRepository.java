@@ -10,6 +10,8 @@ import java.util.List;
 public interface TagRepository extends JpaRepository<Tag, Integer> {
     List<Tag> findAllByChat_Id(Integer id);
     Tag findTagById(Integer id);
-    Tag findTagByName(String name);
+    boolean existsByName(String name);
+
+    Tag findByName(String name);
     List<Tag> findAllByChat(Chat chat);
 }

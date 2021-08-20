@@ -1,13 +1,14 @@
 package com.example.TeamProject;
 
-import com.example.TeamProject.entities.*;
+import com.example.TeamProject.entities.Chat;
+import com.example.TeamProject.entities.User;
+import com.example.TeamProject.entities.User_Chat;
 import com.example.TeamProject.repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.GregorianCalendar;
 
 @Component
 public class DataLoader {
@@ -65,6 +66,7 @@ public class DataLoader {
         uc1.setChat(chat);
         userChatRepo.save(uc1);
 
+        /*
         //Добавляю добавление тегов
         Tag tag0=new Tag();
         tag0.setName("Main");
@@ -123,6 +125,6 @@ public class DataLoader {
         Message_Tag mt2=new Message_Tag();
         mt2.setMessage(msg);
         mt2.setTag(tag3);
-        messageTagRepo.save(mt2);
+        messageTagRepo.save(mt2);*/
     }
 }

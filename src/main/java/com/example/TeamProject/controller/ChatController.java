@@ -72,14 +72,29 @@ public class ChatController {
         msg.setChat((Chat)cachedData.get("currChat"));
         messageRepo.save(msg);
         Tag currTag = (Tag)cachedData.get("currTag");
-        //Расставляем тэги
-        science.Message scienceMessage = new science.Message(msg.getText());
-        List<Message_Tag> messageTags = new ArrayList<>();
+        //Tags
         boolean tagChanged = true;
+        Application.nlpManager.addMessage(msg.getText());
+
+        for (science.Tag tag : Application.nlpManager.keyWordsCollector.getTags()) {
+            if (!tagRepo.existsByName(tag.getLabel())) {
+                Tag tagEntity = new Tag();
+                tagEntity.setName(tag.getLabel());
+                tagEntity.setColor("#03fcdb");
+
+                tagRepo.save(tagEntity);
+            }
+        }
+
+        Application.nlpManager.keyWordsCollector.getTags()
+                .forEach(tag -> System.out.print(tag.getLabel()));
+        science.Message scienceMessage = new science.Message(msg.getText());
+
+        List<Message_Tag> messageTags = new ArrayList<>();
         for (science.Tag messageTag : scienceMessage.getListMessageTags()) {
             Message_Tag message_tag = new Message_Tag();
             message_tag.setMessage(msg);
-            message_tag.setTag(tagRepo.findTagByName(messageTag.name().toLowerCase()));
+            message_tag.setTag(tagRepo.findByName(messageTag.getLabel()));
             if(message_tag.getTag().equals(currTag)) tagChanged = false;
             messageTags.add(message_tag);
         }
