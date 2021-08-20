@@ -31,7 +31,8 @@
 						<ui class="contacts" th:each="c : ${chats}">
 
 						<li class="active">
-							<div class="d-flex bd-highlight" th:attr="onclick=|getChat('${c.getId()}')|">
+<!--							<div class="d-flex bd-highlight" th:attr="onclick=|getChat('${c.getId()}')|">-->
+							<div class="d-flex bd-highlight">
 								<div class="img_cont">
 									<img src="" class="rounded-circle user_img">
 									<span class="online_icon"></span>
@@ -42,18 +43,6 @@
 								</div>
 							</div>
 						</li>
-<!--						<li>-->
-<!--							<div class="d-flex bd-highlight">-->
-<!--								<div class="img_cont">-->
-<!--									<img src="" class="rounded-circle user_img">-->
-<!--									<span class="online_icon offline"></span>-->
-<!--								</div>-->
-<!--								<div class="user_info">-->
-<!--									<span>Taherah Big</span>-->
-<!--									<p>Taherah left 7 mins ago</p>-->
-<!--								</div>-->
-<!--							</div>-->
-<!--						</li>-->
 						</ui>
 					</div>
 					<div class="card-footer"></div>

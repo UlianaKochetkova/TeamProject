@@ -31,11 +31,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/","/registration").permitAll()
                 .anyRequest().authenticated()
-                //.anyRequest().permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/login")
-//                .successHandler(myAuthenticationSuccessHandler())
                 .permitAll()
                 .and()
                 .logout()
@@ -50,7 +48,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
-                //.passwordEncoder(NoOpPasswordEncoder.getInstance())
                 .passwordEncoder(encoder())
                 .usersByUsernameQuery("select phone, password, true from usr where phone=?")
 //                .authoritiesByUsernameQuery("select phone, 'default' from usr where phone=?");
@@ -64,9 +61,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .ignoring()
                 .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/img/**", "/icon/**");
     }
-//    @Bean
-//    public AuthenticationSuccessHandler myAuthenticationSuccessHandler(){
-//        return new MySimpleUrlAuthenticationSuccessHandler();
-//    }
 
 }

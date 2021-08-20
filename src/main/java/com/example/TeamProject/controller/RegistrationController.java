@@ -39,9 +39,7 @@ public class RegistrationController {
 
     @PostMapping("/registration")
     public String addUser(User user, Model model){
-        System.out.println(user.getPhoneNum()+" "+user.getUsername());
         User found=userRepo.findUserByPhoneNum(user.getPhoneNum());
-        //User found=userRepo.findUserByUsername(user.getUsername());
         if (found!=null){
             model.addAttribute("message","User with this phone already exists");
             return "registration";
