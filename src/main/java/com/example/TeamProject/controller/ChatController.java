@@ -1,6 +1,7 @@
 package com.example.TeamProject.controller;
 
 import com.example.TeamProject.Application;
+import com.example.TeamProject.Colors;
 import com.example.TeamProject.entities.*;
 import com.example.TeamProject.repos.*;
 
@@ -36,6 +37,9 @@ public class ChatController {
 
     @Autowired
     private UserChatRepository userChatRepo;
+
+    @Autowired
+    private Colors colors;
 
     HashMap<String, Object> cachedData = new HashMap<String, Object>();
 
@@ -84,7 +88,8 @@ public class ChatController {
                 Tag tagEntity = new Tag();
                 tagEntity.setName(tag.getLabel());
                 //Добавить цвет вот тут
-                tagEntity.setColor("#03fcdb");
+                //tagEntity.setColor("#03fcdb");
+                tagEntity.setColor(colors.getRandomColor());
                 tagEntity.setChat((Chat)cachedData.get("currChat"));
 
                 tagRepo.save(tagEntity);
