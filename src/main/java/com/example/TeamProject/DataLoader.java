@@ -50,6 +50,7 @@ public class DataLoader {
         u1.setPassword(passwordEncoder.encode("admin"));
         u2.setUsername("user2");
         u2.setPhoneNum("+98765432109");
+        u2.setPassword(passwordEncoder.encode("user"));
         userRepo.save(u1);
         userRepo.save(u2);
 

@@ -1,4 +1,4 @@
-<div class="d-flex justify-content-start mb-4" th:each="m : ${msgs}">
+<div class="d-flex mb-4" th:classappend="${#authentication.name} == ${m.getUser().getPhoneNum()} ? justify-content-end : justify-content-start" th:each="m : ${msgs}">
 	<div class="msg_cotainer">
 		<div class="d-flex firstline">
 		<div class="topmsg">

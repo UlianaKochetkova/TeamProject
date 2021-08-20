@@ -34,7 +34,8 @@
     </div>
     <!--	ЧАТ		-->
     <div class="card-body msg_card_body reversed-flex" id="msgs_body">
-        <div class="d-flex justify-content-start mb-4" th:each="m : ${msgs}">
+<!--        th:classappend="${#authentication.name} == ${m.getUser().getPhoneNum()} ? justify-content-end : justify-content-start"-->
+        <div class="d-flex mb-4"  th:classappend="${#authentication.name} == ${m.getUser().getPhoneNum()} ? justify-content-end : justify-content-start" th:each="m : ${msgs}">
             <div class="msg_cotainer">
                 <div class="d-flex firstline">
                     <div class="topmsg">

@@ -6,6 +6,7 @@ import com.example.TeamProject.repos.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -62,14 +63,15 @@ public class ChatController {
     }
 
     @RequestMapping(value = "/getMsg", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String getMsg(@RequestParam("msg") String msgText, Model model){
+    public String getMsg(@RequestParam("msg") String msgText, Model model, Authentication authentication){
     	Message msg = new Message();
     	msg.setText(msgText);
         //Устанавливаем current time
         msg.setCreate_date(new Date());
         //Устанавливаем текущего юзера?
         //Пока установлю базового user1
-        msg.setUser(userRepo.findUserByUsername("user1"));
+        //msg.setUser(userRepo.findUserByUsername("user1"));
+        msg.setUser(userRepo.findUserByPhoneNum(authentication.getName()));
         msg.setChat((Chat)cachedData.get("currChat"));
         messageRepo.save(msg);
         Tag currTag = (Tag)cachedData.get("currTag");
@@ -124,100 +126,25 @@ public class ChatController {
 
 ///////////////////////////////   ЧАТ ПО ID ////////////////////////////////////////////////////
     //AJAX
-    @RequestMapping(value = "/chat", method = RequestMethod.GET)
-    public String getChatAjax(@RequestParam("id") String id, Model model){
-        // Запоминаем текущий чат, сообщения текущего чат и текущий тег в "кэше"
-        cachedData.put("currChat", chatRepo.findChatById(Integer.parseInt(id)));
-        List<Message> lst = messageRepo.findAllByChat((Chat)cachedData.get("currChat"));
-        lst.sort(Comparator.comparing(Message::getCreate_date));
-        cachedData.put("msgs", lst);
-        cachedData.put("currTag", tagRepo.findByName("Main"));
-
-        model.addAttribute("chat", cachedData.get("currChat"));
-        model.addAttribute("tags", tagRepo.findAllByChat((Chat)cachedData.get("currChat")));
-        model.addAttribute("msgs", cachedData.get("msgs"));
-        model.addAttribute("mt", messageTagRepo);
-        model.addAttribute("msgs_count", messageRepo.findAllByChat((Chat)cachedData.get("currChat")).size());
-        return "chat_template";
-        ////////////////////////////////
-
-//        //забрать сообщения по id
-//        List<Message> lst=messageRepo.findAllByChat_Id(id);
-//        lst.sort(Comparator.comparing(Message::getCreate_date).reversed());
+//    @RequestMapping(value = "/chat", method = RequestMethod.GET)
+//    public String getChatAjax(@RequestParam("id") String id, Model model){
+//        // Запоминаем текущий чат, сообщения текущего чат и текущий тег в "кэше"
+//        cachedData.put("currChat", chatRepo.findChatById(Integer.parseInt(id)));
+//        List<Message> lst = messageRepo.findAllByChat((Chat)cachedData.get("currChat"));
+//        lst.sort(Comparator.comparing(Message::getCreate_date));
+//        cachedData.put("msgs", lst);
+//        cachedData.put("currTag", tagRepo.findByName("Main"));
 //
-//        model.addAttribute("chats",chatRepo.findAll());
-//        model.addAttribute("chat",chatRepo.findChatById(id));
-//        //теги нужно забрать по чату
-//        model.addAttribute("tags",tagRepo.findAllByChat_Id(id));
-//        model.addAttribute("msgs", lst);
-//        model.addAttribute("mt",messageTagRepo);
-//        model.addAttribute("users",userRepo.findAll());
-//        return "new_chat";
-    }
-
-
-//    @GetMapping("/chat/{id}")
-//    public String getChat(@PathVariable("id") Integer id, Model model){
-//        //забрать сообщения по id
-//        List<Message> lst=messageRepo.findAllByChat_Id(id);
-//        lst.sort(Comparator.comparing(Message::getCreate_date).reversed());
-//
-//        model.addAttribute("chats",chatRepo.findAll());
-//        model.addAttribute("chat",chatRepo.findChatById(id));
-//        //теги нужно забрать по чату
-//        model.addAttribute("tags",tagRepo.findAllByChat_Id(id));
-//        model.addAttribute("msgs", lst);
-//        model.addAttribute("mt",messageTagRepo);
-//        model.addAttribute("users",userRepo.findAll());
-//        return "new_chat";
+//        model.addAttribute("chat", cachedData.get("currChat"));
+//        model.addAttribute("tags", tagRepo.findAllByChat((Chat)cachedData.get("currChat")));
+//        model.addAttribute("msgs", cachedData.get("msgs"));
+//        model.addAttribute("mt", messageTagRepo);
+//        model.addAttribute("msgs_count", messageRepo.findAllByChat((Chat)cachedData.get("currChat")).size());
+//        return "chat_template";
 //    }
-
-//    @PostMapping("/chat/{id}")
-//    public String getMsg(@PathVariable("id") Integer id,Message msg, Model model){
-//        //Устанавливаем current time
-//        msg.setCreate_date(new Date());
-//        //Устанавливаем текущего юзера?
-//        //Пока установлю базового user1
-//        msg.setUser(userRepo.findUserByUsername("user1"));
-//        msg.setChat(chatRepo.findChatById(id));
-//        messageRepo.save(msg);
-//
-//        //Расставляем тэги
-//        science.Message scienceMessage = new science.Message(msg.getText());
-//        List<Message_Tag> messageTags = new ArrayList<>();
-//        for (science.Tag messageTag : scienceMessage.getListMessageTags()) {
-//            Message_Tag message_tag = new Message_Tag();
-//            message_tag.setMessage(msg);
-//            message_tag.setTag(tagRepo.findTagById(messageTag.ordinal()));
-//            messageTags.add(message_tag);
-//        }
-//        messageTags.forEach(messageTagRepo::save);
-//        //
-//        return getChat(id,model);
-//    }
-
 
 ////////////////////////////////  ТЕГИ  /////////////////////////////////////
-/* Старый маппинг тегов
-/////////////////////////////////////////////////////////////////////
-    @GetMapping("/tag/{id}")
-    public String getTag(@PathVariable("id") Integer id, Model model){
-        //model.addAttribute("curtag",tagRepo.findTagById(id));
-//        List<Message_Tag> mt=messageTagRepo.findAllByTag(tagRepo.findTagById(id));
-        List<Message_Tag> mt=messageTagRepo.findAllByTag_Id(id);
-        ArrayList<Message> tagmsg=new ArrayList<Message>();
-        for (int i=0;i<mt.size(); i++){
-            tagmsg.add(mt.get(i).getMessage());
-            //System.out.println(tagmsg.get(i).getText());
-        }
-        tagmsg.sort(Comparator.comparing(Message::getCreate_date));
-        model.addAttribute("chat",chatRepo.findChatByTitle("chat1"));
-        model.addAttribute("tags",tagRepo.findAll());
-        model.addAttribute("msgs",tagmsg);
-        model.addAttribute("mt",messageTagRepo);
-        return "new_chat";
-    }
-*/
+
     @RequestMapping(value = "/setCurrTag", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String setCurrTag(@RequestParam("tagid") String id, Model model){
         int tId = Integer.parseInt(id);

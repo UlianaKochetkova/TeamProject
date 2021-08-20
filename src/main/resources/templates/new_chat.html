@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 	<head>
 		<title>Chat</title>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -98,7 +98,7 @@
 						</div>
 						<!--	ЧАТ		-->
 						<div class="card-body msg_card_body reversed-flex" id="msgs_body">
-							<div class="d-flex justify-content-start mb-4" th:each="m : ${msgs}">
+							<div class="d-flex mb-4" th:classappend="${#authentication.name} == ${m.getUser().getPhoneNum()} ? justify-content-end : justify-content-start" th:each="m : ${msgs}">
 								<div class="msg_cotainer">
 									<div class="d-flex firstline">
 										<div class="topmsg">
