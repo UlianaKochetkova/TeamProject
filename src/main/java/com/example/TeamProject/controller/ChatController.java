@@ -1,5 +1,6 @@
 package com.example.TeamProject.controller;
 
+import com.example.TeamProject.Application;
 import com.example.TeamProject.entities.*;
 import com.example.TeamProject.repos.*;
 
@@ -50,7 +51,7 @@ public class ChatController {
         List<Message> lst = messageRepo.findAllByChat((Chat)cachedData.get("currChat"));
         lst.sort(Comparator.comparing(Message::getCreate_date).reversed());
         cachedData.put("msgs", lst);
-        cachedData.put("currTag", tagRepo.findTagByName("Main"));
+        cachedData.put("currTag", tagRepo.findByName("Main"));
 
         model.addAttribute("chats",chatRepo.findAll());
         model.addAttribute("chat", cachedData.get("currChat"));
@@ -81,13 +82,13 @@ public class ChatController {
                 Tag tagEntity = new Tag();
                 tagEntity.setName(tag.getLabel());
                 tagEntity.setColor("#03fcdb");
+                tagEntity.setChat((Chat)cachedData.get("currChat"));
 
                 tagRepo.save(tagEntity);
             }
         }
-
         Application.nlpManager.keyWordsCollector.getTags()
-                .forEach(tag -> System.out.print(tag.getLabel()));
+                .forEach(tag -> System.out.println(tag.getLabel()));
         science.Message scienceMessage = new science.Message(msg.getText());
 
         List<Message_Tag> messageTags = new ArrayList<>();
@@ -99,8 +100,9 @@ public class ChatController {
             messageTags.add(message_tag);
         }
         messageTags.forEach(messageTagRepo::save);
-        if(tagChanged && !currTag.equals(tagRepo.findTagByName("Main"))) {
-        	return getTagMsgs(tagRepo.findTagByName("Main").getId().toString(), model);
+        // Обновляем текущий тег
+        if(tagChanged && !currTag.equals(tagRepo.findByName("Main"))) {
+        	setCurrTag(tagRepo.findByName("Main").getId().toString(), model);
         }
         else {
         	List<Message> msgs = (ArrayList<Message>) cachedData.get("msgs");
@@ -108,8 +110,15 @@ public class ChatController {
         	//без этого сообщения добавляются наверх
         	msgs.sort(Comparator.comparing(Message::getCreate_date).reversed());
         	cachedData.put("msgs", msgs);
-        	return getTagMsgs(((Tag)cachedData.get("currTag")).getId().toString(), model);
+        	setCurrTag(((Tag)cachedData.get("currTag")).getId().toString(), model);
         }
+        
+        
+        model.addAttribute("chat", cachedData.get("currChat"));
+        model.addAttribute("tags", tagRepo.findAllByChat((Chat)cachedData.get("currChat")));
+        model.addAttribute("msgs", cachedData.get("msgs"));
+        model.addAttribute("mt", messageTagRepo);
+        return "chat_template";
     }
 
 ///////////////////////////////   ЧАТ ПО ID ////////////////////////////////////////////////////
@@ -121,7 +130,7 @@ public class ChatController {
         List<Message> lst = messageRepo.findAllByChat((Chat)cachedData.get("currChat"));
         lst.sort(Comparator.comparing(Message::getCreate_date));
         cachedData.put("msgs", lst);
-        cachedData.put("currTag", tagRepo.findTagByName("Main"));
+        cachedData.put("currTag", tagRepo.findByName("Main"));
 
         model.addAttribute("chat", cachedData.get("currChat"));
         model.addAttribute("tags", tagRepo.findAllByChat((Chat)cachedData.get("currChat")));
@@ -207,8 +216,8 @@ public class ChatController {
         return "new_chat";
     }
 */
-    @RequestMapping(value = "/getTagMsgs", method = RequestMethod.GET)
-    public String getTagMsgs(@RequestParam("tagid") String id, Model model){
+    @RequestMapping(value = "/setCurrTag", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public String setCurrTag(@RequestParam("tagid") String id, Model model){
         int tId = Integer.parseInt(id);
         Tag currTag = tagRepo.findById(tId).get();
         Tag prevTag = (Tag)cachedData.get("currTag");
@@ -230,6 +239,11 @@ public class ChatController {
             cachedData.put("msgs", tagmsg);
         }
         cachedData.put("currTag", currTag);
+        return "index";
+    }
+    
+    @RequestMapping(value = "/getTagMsgs", method = RequestMethod.GET)
+    public String getTagMsgs(Model model){
         model.addAttribute("mt", messageTagRepo);
         model.addAttribute("msgs", cachedData.get("msgs"));
         return "msgs_template";

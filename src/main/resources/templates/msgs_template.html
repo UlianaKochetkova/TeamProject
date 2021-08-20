@@ -6,7 +6,7 @@
 		</div>
 			<div class="tagblock">
 				<div th:each="t : ${mt.findAllByMessage_Id(m.getId())}">
-					<button th:attr="onclick=|getTagMsgs('${t.getTag().getId()}')|"  class="round" th:style="'background:'+ ${t.getTag().getColor()}+';'"></button>
+					<button th:attr="onclick=|setCurrTag('${t.getTag().getId()}')|"  class="round" th:style="'background:'+ ${t.getTag().getColor()}+';'"></button>
 				</div>
 			</div>
 		</div>

@@ -27,7 +27,7 @@
             <div class="tags">
                 <div th:each="t : ${tags}">
                     <!--								<a onclick="somefunc()" class="tag" th:style="'background:'+ ${t.getColor()}+';'" th:text="${t.getName()}" th:href="@{/tag/{id}(id=${t.getId()})}"></a>-->
-                    <button th:attr="onclick=|getTagMsgs('${t.getId()}')|"  class="tag" th:style="'background:'+ ${t.getColor()}+';'" th:text="${t.getName()}"></button>
+                    <button th:attr="onclick=|setCurrTag('${t.getId()}')|"  class="tag" th:style="'background:'+ ${t.getColor()}+';'" th:text="${t.getName()}"></button>
                 </div>
             </div>
         </div>
@@ -44,7 +44,7 @@
                     <div class="tagblock">
                         <div th:each="t : ${mt.findAllByMessage_Id(m.getId())}">
                             <!--<a class="round" th:style="'background:'+ ${t.getTag().getColor()}+';'" th:href="@{/tag/{id}(id=${t.getTag().getId()})}"></a>-->
-                            <button th:attr="onclick=|getTagMsgs('${t.getTag().getId()}')|"  class="round" th:style="'background:'+ ${t.getTag().getColor()}+';'"></button>
+                            <button th:attr="onclick=|setCurrTag('${t.getTag().getId()}')|"  class="round" th:style="'background:'+ ${t.getTag().getColor()}+';'"></button>
                         </div>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
 
     <!--	ВВОД СООБЩЕНИЯ					-->
     <div class="card-footer">
-        <form id="inputForm" name="inputForm">
+        <form id="inputForm" name="inputForm" onsubmit="getMsg(); return false;">
             <div class="input-group-append">
                 <input class="form-control type_msg" type="text" id="msg" name="msg" placeholder="Enter your text here">
                 <button class="input-group-text send_btn" type="submit">
@@ -65,7 +65,4 @@
             </div>
         </form>
     </div>
-    <script>
-        document.getElementById("inputForm").addEventListener("submit", getMsg);
-    </script>
 </div>
