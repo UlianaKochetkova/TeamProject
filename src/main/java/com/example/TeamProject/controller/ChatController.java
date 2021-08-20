@@ -118,6 +118,7 @@ public class ChatController {
         model.addAttribute("tags", tagRepo.findAllByChat((Chat)cachedData.get("currChat")));
         model.addAttribute("msgs", cachedData.get("msgs"));
         model.addAttribute("mt", messageTagRepo);
+        model.addAttribute("msgs_count", messageRepo.findAllByChat((Chat)cachedData.get("currChat")).size());
         return "chat_template";
     }
 
@@ -136,6 +137,7 @@ public class ChatController {
         model.addAttribute("tags", tagRepo.findAllByChat((Chat)cachedData.get("currChat")));
         model.addAttribute("msgs", cachedData.get("msgs"));
         model.addAttribute("mt", messageTagRepo);
+        model.addAttribute("msgs_count", messageRepo.findAllByChat((Chat)cachedData.get("currChat")).size());
         return "chat_template";
         ////////////////////////////////
 
