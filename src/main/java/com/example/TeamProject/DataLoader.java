@@ -5,6 +5,7 @@ import com.example.TeamProject.entities.User;
 import com.example.TeamProject.entities.User_Chat;
 import com.example.TeamProject.repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -29,6 +30,9 @@ public class DataLoader {
     @Autowired
     private UserChatRepository userChatRepo;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @PostConstruct
     public void loadData(){
         Chat chat=new Chat();
@@ -36,10 +40,16 @@ public class DataLoader {
         chat.setDescription("d1");
         chatRepo.save(chat);
 
+        Chat chat2=new Chat();
+        chat2.setTitle("chat2");
+        chat2.setDescription("d2");
+        chatRepo.save(chat2);
+
         User u1=new User();
         User u2=new User();
         u1.setUsername("user1");
         u1.setPhoneNum("+12345678901");
+        u1.setPassword(passwordEncoder.encode("admin"));
         u2.setUsername("user2");
         u2.setPhoneNum("+98765432109");
         userRepo.save(u1);
@@ -58,6 +68,9 @@ public class DataLoader {
 
         /*
         //Добавляю добавление тегов
+        Tag tag0=new Tag();
+        tag0.setName("Main");
+        tag0.setChat(chat);
         Tag tag1=new Tag();
         tag1.setName("tiktok");
         tag1.setChat(chat);
@@ -74,6 +87,7 @@ public class DataLoader {
         tag4.setName("spam");
         tag4.setChat(chat);
         tag4.setColor("#ffffff");
+        tagRepo.save(tag0);
         tagRepo.save(tag1);
         tagRepo.save(tag2);
         tagRepo.save(tag3);

@@ -1,17 +1,17 @@
 package com.example.TeamProject.repos;
 
 import com.example.TeamProject.entities.Chat;
+import com.example.TeamProject.entities.Message;
 import com.example.TeamProject.entities.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
 public interface TagRepository extends JpaRepository<Tag, Integer> {
-//    Задел на будущее
-    List<Tag> findAllByChat(Chat chat);
+    List<Tag> findAllByChat_Id(Integer id);
     Tag findTagById(Integer id);
-
     boolean existsByName(String name);
 
     Tag findByName(String name);
+    List<Tag> findAllByChat(Chat chat);
 }

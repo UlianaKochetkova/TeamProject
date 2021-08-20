@@ -11,9 +11,110 @@
 	       background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
 	        background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
 		}
+		/*----------------------------------------------------------------------------*/
+		/*.newTag{*/
+		/*	display:flex;*/
+		/*	border: 2px solid red;*/
+		/*}*/
+		.addtoken{
+			margin-left:20px;
+		}
 
+		.newToken{
+				display:flex;
+				/*border: 2px solid red;*/
+				margin-top:inherit;
+				margin-bottom: 7px;
+		}
+
+		.background{
+			display:flex;
+			padding:30px;
+			/*align-items: center;*/
+			justify-content: center;
+			z-index:100;
+			width:500px;
+			/*height:40%;*/
+			border: .5px solid #282c45;
+			border-radius: 15px !important;
+			position:absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+
+			background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
+		}
+		.back1{
+			display:flex;
+			width:100%;
+			background-color: rgba(0,0,0,0.4) !important;
+		}
+		.buttons{
+			display:flex;
+			width:100%;
+			justify-content: space-between;
+			margin-top:inherit;
+			margin-bottom: -5px;
+		}
+
+		.selecting{
+			width:100%;
+		}
+		.label{
+			display:flex;
+			color:white;
+			font-weight: bold;
+			width:100%;
+		}
+		.createbutton{
+			display:flex;
+			justify-content: center;
+			align-items: center;
+			/*width:38%;*/
+			background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
+			color:black;
+			border-radius: 15px !important;
+			border: 2px solid #282c45;
+		}
+		.crheader{
+			display:flex;
+			justify-content: center;
+			text-align: center;
+			font-weight: 600;
+			color:white;
+			/*border: 3px solid red;*/
+		}
+		.chatinput{
+			margin:inherit;
+		}
+		.newchat{
+			display:flex;
+			margin-top:7px;
+			margin-bottom: 7px;
+			align-items: center;
+			flex-direction: column;
+		}
+
+		.hd{
+			/*border: 1px solid orange;*/
+			display:flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+		.chatinfo{
+			display:flex;
+			/*border: 3px solid red;*/
+		}
+		.chatbut{
+			border-radius: 15px;
+			background-color: rgba(0,0,0,0.3) !important;
+			border:0 !important;
+			color: white !important;
+			cursor: pointer;
+		}
 
 		/*-------------------------------То, что я трогала--------------------------------------*/
+
 		/* Кнопка добавления чата */
 		.add_btn{
 			border-radius: 15px;
@@ -28,6 +129,7 @@
 			/*border: 3px solid black;*/
 			justify-content: space-between;
 		}
+
         /*Для меню тегов*/
 		.outtags{
 			background-color: rgba(0,0,0,0.15) !important;
@@ -181,6 +283,11 @@
 			overflow-y: auto;
 			white-space: nowrap;
 		}
+
+        .reversed-flex {
+            display: flex;
+            flex-direction: column-reverse;
+        }
 		.msg_card_body{
 			overflow-y: auto;
 		}
@@ -203,6 +310,7 @@
 		     box-shadow:none !important;
            outline:0px !important;
 		}
+
 		.type_msg{
 			background-color: rgba(0,0,0,0.3) !important;
 			border:0 !important;

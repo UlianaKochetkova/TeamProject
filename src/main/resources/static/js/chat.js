@@ -2,35 +2,116 @@
 $('#action_menu_btn').click(function(){
 	$('.action_menu').toggle();
 });
+
+		$("#hide").hide();
+		$('.add_btn').click(function(){
+			$('#hide').show();
+			$('#newTag').click(function(){
+				$('.newTag').show();
+			});
+			$('.newTag').hide();
+			$('#hide').css("margin", "auto");
+		});
+
+		$('#cancel').click(function(){
+			$("#hide").hide();
+		});
+
+		$('#chatinform').hide();
+		$('.chatbut').click(function(){
+			$('#chatinform').show();
+			$('#chatinform').css("margin", "auto");
+		});
+		$('#back').click(function(){
+			$("#chatinform").hide();
+		});
+
+		$('#userpage').hide();
+
+		$("#hide2").hide();
+		$('#next').click(function(){
+			$("#hide").hide();
+			$("#hide2").show();
+		});
 	});
 
-/////////////////////////////////////////////////////////////////КОД ДАШИ
-function someFunc(){
+
+	//Функция, которая получает id чата из левого меню и отображает чат справа
+	//закреплена на блоке в списке слева
+	function toChat(id){
+	console.log(id);
+	}
+
+
+	//Функция, которая получает id юзера, чью страницу нужно вывести
+	//Закреплена за именем пользователя на сообщении
+	function toUser(id){
+		console.log(id);
+		//$('#userpage').show();
+	}
+
+
+	//Функция, которая получает id чата, информацию о котором нужно вывести
+	//закреплена на кнопке справа в шапке чата
+	function aboutChat(id){
+
+	}
+
+/////////////////////////////////////////////////////////////////
+function getTagMsgs(tagid){
 	//https://learn.javascript.ru/xmlhttprequest
 //XMLHttpRequest - встроенный в браузер объект, который даёт возможность делать HTTP-запросы к серверу без перезагрузки страницы
 	var xhr = new XMLHttpRequest();
-//Инициализация. Только конфигурирует запрос
-	xhr.open('POST', 'js/data/servletPage.jsp',true);
+	//Инициализация. Только конфигурирует запрос
+	//Так как GET запрос, параметры записаны в url
+	xhr.open("GET", "/getTagMsgs?tagid="+tagid, true);
 
-//Устанавливает заголовок запроса с именем name и значением value
-//value - определяет правильную кодировку для переменных POST. https://en.wikipedia.org/wiki/POST_(HTTP)#Use_for_submitting_web_forms
-//TODO: в чем смысл этого действия?
-	xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	//метод устанавливает соединение и отсылает запрос к серверу
+	//если вы хотите отправить что-то в качестве параметра сервлету, используйте метод send, иначе send null
+	//параметр запроса на бэк
+	xhr.send();
+
 
 //Функция для проверки какого-либо ответа
 // 200 = OK
 	xhr.onload = function() {
+		console.log(`Загружено: ${xhr.status} ${xhr.response}`);
 		if (xhr.status === 200) {
-			//TODO:Что здесь за действие?
-			doSomeAction(xhr.responseText, param1);
-			return false;
+			document.getElementById("msgs_body").innerHTML = xhr.response;
 		} else {
 			alert('Request failed. Returned status of ' + xhr.status);
 		}
 	};
-
-//метод устанавливает соединение и отсылает запрос к серверу
-//encodeURI - кодирует строку, ничего особенного, видимо
-//https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent
-	xhr.send(encodeURI('param1=' + param1));
 }
+
+function getMsg(event){
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", "/getMsg", true);
+	xhr.send(new FormData(event.target));
+	xhr.onload = function() {
+		console.log(`Загружено: ${xhr.status} ${xhr.response}`);
+		if (xhr.status === 200) {
+			document.getElementById("msgs_body").innerHTML = xhr.response;
+			document.getElementById("msg").value = "";
+		} else {
+			alert('Request failed. Returned status of ' + xhr.status);
+		}
+	};
+	event.preventDefault();
+	return false;
+}
+
+////////////////////////////////////////////////
+	function getChat(id){
+		var xhr = new XMLHttpRequest();
+		xhr.open("GET", "/chat?id="+id, true);
+		xhr.send();
+		xhr.onload = function() {
+			console.log(`Загружено: ${xhr.status} ${xhr.response}`);
+			if (xhr.status === 200) {
+				document.getElementById("chat_body").innerHTML = xhr.response;
+			} else {
+				alert('Request failed. Returned status of ' + xhr.status);
+			}
+		};
+	}
