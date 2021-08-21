@@ -66,10 +66,16 @@
 									<p><span th:text="${msgs_count}"/> Messages</p>
 								</div>
 								</div>
-								<!--	   Кнопка информации по чату			-->
-								<button th:attr="onclick=|aboutChat('${chat.getId()}')|" class="input-group-text chatbut" type="submit">
-									<i class="fa fa-comments" aria-hidden="true"></i>
-								</button>
+								<div class="buttonsHead">
+									<button th:if="${#authorization.expr('hasAuthority(''Admin'')')}" class="input-group-text chatbut" type="submit">
+										ADMIN
+									</button>
+
+									<!--	   Кнопка информации по чату			-->
+									<button th:attr="onclick=|aboutChat('${chat.getId()}')|" class="input-group-text chatbut" type="submit">
+										<i class="fa fa-comments" aria-hidden="true"></i>
+									</button>
+								</div>
 							</div>
 
 						</div>
