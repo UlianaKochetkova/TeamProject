@@ -3,37 +3,16 @@
 			$('.action_menu').toggle();
 		});
 
-		$("#hide").hide();
-		$('.add_btn').click(function(){
-			$('#hide').show();
-			$('#newTag').click(function(){
-				$('.newTag').show();
-			});
-			$('.newTag').hide();
-			$('#hide').css("margin", "auto");
+		$("#groupTags").hide();
+		$('#admin').click(function(){
+			$('#groupTags').show();
+			$('#groupTags').css("margin", "auto");
 		});
 
-		$('#cancel').click(function(){
-			$("#hide").hide();
-		});
+		// $('#cancel').click(function(){
+		// 	$("#hide").hide();
+		// });
 
-		$('#chatinform').hide();
-		$('.chatbut').click(function(){
-			$('#chatinform').show();
-			$('#chatinform').css("margin", "auto");
-		});
-		$('#back').click(function(){
-			$("#chatinform").hide();
-		});
-
-		$('#userpage').hide();
-
-		$("#hide2").hide();
-		$('#next').click(function(){
-			$("#hide").hide();
-			$("#hide2").show();
-		});
-		
 		//document.getElementById("inputForm").addEventListener("submit", getMsg);
 	});
 
@@ -111,6 +90,15 @@ function getMsg(){
 		if (xhr.status === 200) {
 			document.getElementById("chat_body").innerHTML = xhr.response;
 			document.getElementById("msg").value = "";
+
+			$("#groupTags").hide();
+			$('#admin').click(function(){
+				$('#groupTags').show();
+				$('#groupTags').css("margin", "auto");
+			});
+			$('#back').click(function(){
+				$("#groupTags").hide();
+			});
 		} else {
 			alert('Request failed. Returned status of ' + xhr.status);
 		}
