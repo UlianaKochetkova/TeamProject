@@ -90,7 +90,8 @@ public class ChatController {
                 tagEntity.setName(tag.getLabel());
                 //Добавить цвет вот тут
                 //tagEntity.setColor("#03fcdb");
-                tagEntity.setColor(colors.getRandomColor());
+                //tagEntity.setColor(colors.getRandomColor());
+                tagEntity.setColor(colors.getColor());
                 tagEntity.setChat((Chat)cachedData.get("currChat"));
 
                 tagRepo.save(tagEntity);
