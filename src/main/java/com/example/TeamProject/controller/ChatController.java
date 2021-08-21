@@ -84,7 +84,7 @@ public class ChatController {
         boolean tagChanged = true;
         Application.nlpManager.addMessage(msg.getText());
 
-        for (science.Tag tag : Application.nlpManager.keyWordsCollector.getTopTags(1)) {
+        for (science.Tag tag : Application.nlpManager.keyWordsCollector.getTopTags(2)) {
             if (!tagRepo.existsByName(tag.getLabel())) {
                 Tag tagEntity = new Tag();
                 tagEntity.setName(tag.getLabel());
@@ -111,6 +111,7 @@ public class ChatController {
             }
         }
         messageTags.forEach(messageTagRepo::save);
+        recomputeTags(((Chat) cachedData.get("currChat")).getId());
         // Обновляем текущий тег
         if(tagChanged && !currTag.equals(tagRepo.findByName("Main"))) {
         	setCurrTag(tagRepo.findByName("Main").getId().toString(), model);
@@ -185,5 +186,27 @@ public class ChatController {
         model.addAttribute("mt", messageTagRepo);
         model.addAttribute("msgs", cachedData.get("msgs"));
         return "msgs_template";
+    }
+
+    private void recomputeTags(Integer chatId) {
+        for (Message message : messageRepo.findAllByChat_Id(chatId)) {
+            science.Message scienceMessage = new science.Message(message.getText());
+
+            List<Message_Tag> messageTags = new ArrayList<>();
+            for (science.Tag messageTag : scienceMessage.getListMessageTags(3)) {
+                Tag tag = tagRepo.findByName(messageTag.getLabel());
+                if (tag != null) {
+                    if (messageTagRepo.findByMessage_IdAndTag_Id(message.getId(), tag.getId()) == null) {
+                        Message_Tag message_tag = new Message_Tag();
+                        message_tag.setMessage(message);
+                        message_tag.setTag(tag);
+                        if (message_tag.getTag() != null) {
+                            messageTags.add(message_tag);
+                        }
+                    }
+                }
+            }
+            messageTags.forEach(messageTagRepo::save);
+        }
     }
 }
