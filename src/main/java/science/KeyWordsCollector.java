@@ -75,7 +75,7 @@ public class KeyWordsCollector {
     public List<Tag> getTopTags(int minCount) {
         return keyWordsCount.entrySet()
                 .stream()
-                .filter(tagIntegerEntry -> tagIntegerEntry.getValue() > minCount)
+                .filter(tagIntegerEntry -> tagIntegerEntry.getValue() >= minCount)
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
     }

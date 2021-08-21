@@ -84,7 +84,7 @@ public class ChatController {
         boolean tagChanged = true;
         Application.nlpManager.addMessage(msg.getText());
 
-        for (science.Tag tag : Application.nlpManager.keyWordsCollector.getTopTags(5)) {
+        for (science.Tag tag : Application.nlpManager.keyWordsCollector.getTopTags(1)) {
             if (!tagRepo.existsByName(tag.getLabel())) {
                 Tag tagEntity = new Tag();
                 tagEntity.setName(tag.getLabel());
@@ -103,8 +103,10 @@ public class ChatController {
             Message_Tag message_tag = new Message_Tag();
             message_tag.setMessage(msg);
             message_tag.setTag(tagRepo.findByName(messageTag.getLabel()));
-            if (message_tag.getTag() != null && message_tag.getTag().equals(currTag)) {
-                tagChanged = false;
+            if (message_tag.getTag() != null) {
+                if (message_tag.getTag().equals(currTag)) {
+                    tagChanged = false;
+                }
                 messageTags.add(message_tag);
             }
         }
