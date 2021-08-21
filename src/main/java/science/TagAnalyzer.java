@@ -5,32 +5,38 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 class TagAnalyzer {
-    List<Tag> analyze(String text) {
+    Map<Tag, Integer> analyze(String text) {
         if (!text.isEmpty()) {
-            List<Tag> tags = new ArrayList<>();
+            Map<Tag, Integer> tags = new HashMap<>();
             text = text.replace(" ", "%20");
             try {
-                URL url = new URL("http://termextract.fivefilters.org/extract.php?output=txt&lowercase=1&maxwords=2&text=" + text);
+                URL url = new URL("http://termextract.fivefilters.org/extract.php?output=json&lowercase=1&maxwords=2&text=" + text);
                 URLConnection urlConnection = url.openConnection();
                 BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-                String inputLine;
-                while ((inputLine = in.readLine()) != null) {
-                    System.out.println("tag: " + inputLine);
-                    tags.add(new Tag(Tag.getNewId(), inputLine));
+                String inputLine = in.readLine();
+                System.out.println("tags: " + inputLine);
+                for (String tagString : inputLine.split("],\\[")) {
+                    tagString = tagString
+                            .replaceAll("]", "")
+                            .replaceAll("\\[", "")
+                            .replaceAll("\"", "");
+                    String[] tag = tagString.split(",");
+                    System.out.println(tagString);
+                    tags.put(new Tag(Tag.getNewId(), tag[0]), Integer.valueOf(tag[1]));
                 }
                 in.close();
                 return tags;
             } catch (IOException e) {
                 e.printStackTrace();
-                return Collections.emptyList();
+                return Collections.emptyMap();
             }
         } else {
-            return Collections.emptyList();
+            return Collections.emptyMap();
         }
     }
 }

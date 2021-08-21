@@ -2,6 +2,9 @@ package science;
 
 import com.example.TeamProject.Application;
 
+/**
+ * В принципе это просто оно слово сообщения
+ */
 public class Token {
 
     private String value;

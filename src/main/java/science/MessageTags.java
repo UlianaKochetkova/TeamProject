@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Класс представляющий собой Map все тэгов сообщения
+ */
 public class MessageTags extends HashMap<Tag, Double> {
 
     public void addRate(TokenTag tokenTag) {

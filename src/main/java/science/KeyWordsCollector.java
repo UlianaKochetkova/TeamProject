@@ -4,24 +4,33 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Хранит в себе список всех существующих в данные момент тэгов и ключевых слов, умеет читать их из словарей
+ */
 public class KeyWordsCollector {
     private Map<Tag, String> paths;
     private Map<String, TokenTag> keyWords;
+    private Map<Tag, Integer> keyWordsCount;
 
-    public KeyWordsCollector(List<Tag> tags, Map<Tag, String> paths) {
-        keyWords = tags.stream()
-                .collect(
-                        Collectors.toMap(
-                                Tag::getValue,
-                                tag -> new TokenTag(tag, 1)));
+    public KeyWordsCollector(Map<Tag, Integer> tags, Map<Tag, String> paths) {
+        keyWords = new HashMap<>();
+        keyWordsCount = new HashMap<>();
+        for (Map.Entry<Tag, Integer> tag : tags.entrySet()) {
+            this.keyWords.put(tag.getKey().getLabel().toLowerCase().replaceAll("\\pP", " "), new TokenTag(tag.getKey(), 1));
+            this.keyWordsCount.put(tag.getKey(), tag.getValue());
+        }
         this.paths = paths;
         readAllDictionaries();
     }
 
+    /**
+     * Достаёт тэги из всех словарей
+     */
     private void readAllDictionaries() {
         paths.forEach(this::readDictionary);
     }
@@ -37,6 +46,10 @@ public class KeyWordsCollector {
                 keyWords.put(
                         tokenLine[0],
                         new TokenTag(tag, Double.parseDouble(tokenLine[1])));
+                keyWordsCount.put(
+                        Tag.spamTag(),
+                        Integer.MAX_VALUE
+                );
             }
         } catch (IOException exception) {
             exception.printStackTrace();
@@ -44,7 +57,7 @@ public class KeyWordsCollector {
     }
 
     public TokenTag getToken(String word) {
-        word = word.toLowerCase().replaceAll("\\pP", "");
+        word = word.toLowerCase().replaceAll("\\pP", " ");
         if (keyWords.containsKey(word)) {
             return keyWords.get(word);
         } else {
@@ -56,6 +69,14 @@ public class KeyWordsCollector {
         return keyWords.values()
                 .stream()
                 .map(TokenTag::getTag)
+                .collect(Collectors.toList());
+    }
+
+    public List<Tag> getTopTags(int minCount) {
+        return keyWordsCount.entrySet()
+                .stream()
+                .filter(tagIntegerEntry -> tagIntegerEntry.getValue() > minCount)
+                .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
     }
 }

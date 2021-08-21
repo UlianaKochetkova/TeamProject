@@ -1,5 +1,8 @@
 package science;
 
+/**
+ * Простейший класс тэга
+ */
 public class Tag {
     private static int maxId = 4;
     private int id;
@@ -9,7 +12,7 @@ public class Tag {
     public Tag(int id, String label) {
         this.id = id;
         this.label = label;
-        this.value = label.toLowerCase().replaceAll("\\pP", "");
+        this.value = label.toLowerCase().replaceAll("\\pP", " ");
     }
 
     public static Tag emptyTag() {

@@ -1,9 +1,11 @@
 package science;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+/**
+ * Основной класс, который занимается управлением NLP
+ */
 public class NLPManager {
     public KeyWordsCollector keyWordsCollector;
     private String messages;
@@ -14,15 +16,23 @@ public class NLPManager {
         PATHS.put(new Tag(1, "SPAM"), "/dictionaries/spam.dict");
         messages = "";
         tagAnalyzer = new TagAnalyzer();
-        List<Tag> tags = tagAnalyzer.analyze(messages);
+        Map<Tag, Integer> tags = tagAnalyzer.analyze(messages);
         this.keyWordsCollector = new KeyWordsCollector(tags, PATHS);
     }
 
+    /**
+     * Пересчитывает теги в чате
+     */
     public void recomputeTags() {
-        List<Tag> tags = tagAnalyzer.analyze(messages);
+        Map<Tag, Integer> tags = tagAnalyzer.analyze(messages);
         this.keyWordsCollector = new KeyWordsCollector(tags, PATHS);
     }
 
+    /**
+     * Добавляет новое сообщение в текст сообщений
+     *
+     * @param message
+     */
     public void addMessage(String message) {
         this.messages = messages.concat(" ... " + message);
         recomputeTags();

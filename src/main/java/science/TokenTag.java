@@ -1,5 +1,8 @@
 package science;
 
+/**
+ * Тэг слова сообщения
+ */
 public class TokenTag {
     private Tag tag;
     private double tagRate;

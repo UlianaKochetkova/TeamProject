@@ -2,21 +2,22 @@ package com.example.TeamProject.controller;
 
 import com.example.TeamProject.Application;
 import com.example.TeamProject.Colors;
-import com.example.TeamProject.entities.*;
+import com.example.TeamProject.entities.Chat;
+import com.example.TeamProject.entities.Message;
+import com.example.TeamProject.entities.Message_Tag;
+import com.example.TeamProject.entities.Tag;
 import com.example.TeamProject.repos.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class ChatController {
@@ -83,7 +84,7 @@ public class ChatController {
         boolean tagChanged = true;
         Application.nlpManager.addMessage(msg.getText());
 
-        for (science.Tag tag : Application.nlpManager.keyWordsCollector.getTags()) {
+        for (science.Tag tag : Application.nlpManager.keyWordsCollector.getTopTags(5)) {
             if (!tagRepo.existsByName(tag.getLabel())) {
                 Tag tagEntity = new Tag();
                 tagEntity.setName(tag.getLabel());
@@ -95,17 +96,17 @@ public class ChatController {
                 tagRepo.save(tagEntity);
             }
         }
-        Application.nlpManager.keyWordsCollector.getTags()
-                .forEach(tag -> System.out.println(tag.getLabel()));
         science.Message scienceMessage = new science.Message(msg.getText());
 
         List<Message_Tag> messageTags = new ArrayList<>();
-        for (science.Tag messageTag : scienceMessage.getListMessageTags()) {
+        for (science.Tag messageTag : scienceMessage.getListMessageTags(3)) {
             Message_Tag message_tag = new Message_Tag();
             message_tag.setMessage(msg);
             message_tag.setTag(tagRepo.findByName(messageTag.getLabel()));
-            if(message_tag.getTag().equals(currTag)) tagChanged = false;
-            messageTags.add(message_tag);
+            if (message_tag.getTag() != null && message_tag.getTag().equals(currTag)) {
+                tagChanged = false;
+                messageTags.add(message_tag);
+            }
         }
         messageTags.forEach(messageTagRepo::save);
         // Обновляем текущий тег
