@@ -32,9 +32,11 @@
     <div class="outtags">
         <div class="grouptags">
             <div class="tags">
-                <div th:each="t : ${tags}">
-                    <!--								<a onclick="somefunc()" class="tag" th:style="'background:'+ ${t.getColor()}+';'" th:text="${t.getName()}" th:href="@{/tag/{id}(id=${t.getId()})}"></a>-->
-                    <button th:attr="onclick=|setCurrTag('${t.getId()}')|"  class="tag" th:style="'background:'+ ${t.getColor()}+';'" th:text="${t.getName()}"></button>
+                <div>
+                <button th:attr="onclick=|setCurrTag(0)|"  class="tag" style="background:#ffffff;">Main</button>
+                </div>
+                    <div th:each="t : ${tags}">
+                    <button  th:attr="onclick=|setCurrTag('${t.getId()}')|"  class="tag" th:style="'background:'+ ${t.getColor()}+';'" th:text="${t.getName()}"></button>
                 </div>
             </div>
         </div>
@@ -94,7 +96,7 @@
 
 									<label class="label">Choose keywords</label>
 									<select multiple name="tags">
-										<option th:each="t : ${tags}" th:if="${t.getId()}  != 1" th:value="${t.getId()}" th:text="${t.getName()}">
+										<option th:each="t : ${tags}" th:value="${t.getId()}" th:text="${t.getName()}">
 										</option>
 									</select>
 

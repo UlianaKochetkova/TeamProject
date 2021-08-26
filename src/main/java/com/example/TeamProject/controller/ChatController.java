@@ -58,7 +58,9 @@ public class ChatController {
         List<Message> lst = messageRepo.findAllByChat((Chat)cachedData.get("currChat"));
         lst.sort(Comparator.comparing(Message::getCreate_date).reversed());
         cachedData.put("msgs", lst);
-        cachedData.put("currTag", tagRepo.findByName("Main"));
+
+        //cachedData.put("currTag", tagRepo.findByName("Main"));
+        cachedData.put("currTag", new Tag(0,(Chat)cachedData.get("currChat"),"Main"));
         cachedData.put("msgsCount", messageRepo.findAllByChat((Chat)cachedData.get("currChat")).size());
 
         model.addAttribute("chats",chatRepo.findAll());
@@ -76,13 +78,12 @@ public class ChatController {
     	msg.setText(msgText);
         //Устанавливаем current time
         msg.setCreate_date(new Date());
-        //Устанавливаем текущего юзера?
-        //Пока установлю базового user1
-        //msg.setUser(userRepo.findUserByUsername("user1"));
+        //Устанавливаем текущего юзера
         msg.setUser(userRepo.findUserByPhoneNum(authentication.getName()));
         msg.setChat((Chat)cachedData.get("currChat"));
         messageRepo.save(msg);
         cachedData.put("msgsCount", ((Integer)cachedData.get("msgsCount")) + 1);
+
         Tag currTag = (Tag)cachedData.get("currTag");
         //Tags
         boolean tagChanged = true;
@@ -92,9 +93,6 @@ public class ChatController {
             if (!tagRepo.existsByName(tag.getLabel())) {
                 Tag tagEntity = new Tag();
                 tagEntity.setName(tag.getLabel());
-                //Добавить цвет вот тут
-                //tagEntity.setColor("#03fcdb");
-                //tagEntity.setColor(colors.getRandomColor());
                 tagEntity.setColor(colors.getColor());
                 tagEntity.setChat((Chat)cachedData.get("currChat"));
 
@@ -116,8 +114,11 @@ public class ChatController {
         messageTags.forEach(messageTagRepo::save);
         recomputeTags(((Chat) cachedData.get("currChat")).getId());
         // Обновляем текущий тег
-        if(tagChanged && !currTag.equals(tagRepo.findByName("Main"))) {
-        	setCurrTag(tagRepo.findByName("Main").getId().toString(), model);
+        //TODO:currtag
+        //if(tagChanged && !currTag.equals(tagRepo.findByName("Main"))) {
+        if(tagChanged && !currTag.equals(new Tag(0,(Chat) cachedData.get("currChat"),"Main"))) {
+        	//setCurrTag(tagRepo.findByName("Main").getId().toString(), model);
+            setCurrTag("0", model);
         }
         else {
         	List<Message> msgs = (ArrayList<Message>) cachedData.get("msgs");
@@ -165,8 +166,15 @@ public class ChatController {
 
     @RequestMapping(value = "/setCurrTag", method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String setCurrTag(@RequestParam("tagid") String id, Model model){
+        //забираем tagid
         int tId = Integer.parseInt(id);
-        Tag currTag = tagRepo.findById(tId).get();
+        Tag currTag=null;
+        if (tId==0){
+            currTag=new Tag(0,(Chat) cachedData.get("currChat"),"Main");
+        }
+        else currTag = tagRepo.findById(tId).get();
+
+        //Tag currTag = tagRepo.findById(tId).get();
         Tag prevTag = (Tag)cachedData.get("currTag");
         if (!prevTag.equals(currTag))
         {
@@ -247,7 +255,8 @@ public class ChatController {
         }
         
         //Меняем текущий тег на Main, чтобы обновить кешированные сообщения
-        setCurrTag(tagRepo.findByName("Main").getId().toString(), model);
+        //setCurrTag(tagRepo.findByName("Main").getId().toString(), model);
+        setCurrTag("0", model);
         
         return getCurrChat(model);
     }

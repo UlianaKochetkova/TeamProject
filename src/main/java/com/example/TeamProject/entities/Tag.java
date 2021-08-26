@@ -35,6 +35,15 @@ public class Tag {
         }
         return true;
     }
+    public Tag(){
+
+    }
+
+    public Tag(Integer id, Chat chat, String name) {
+        this.id = id;
+        this.chat = chat;
+        this.name = name;
+    }
 
     public Integer getId() {
         return id;

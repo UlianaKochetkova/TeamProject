@@ -86,9 +86,9 @@ public class DataLoader {
         uc1.setChat(chat);
         userChatRepo.save(uc1);
         
-        Tag tag0=new Tag();
-        tag0.setName("Main");
-        tag0.setChat(chat);
-        tagRepo.save(tag0);
+//        Tag tag0=new Tag();
+//        tag0.setName("Main");
+//        tag0.setChat(chat);
+//        tagRepo.save(tag0);
     }
 }
