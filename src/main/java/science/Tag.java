@@ -15,6 +15,12 @@ public class Tag {
         this.value = label.toLowerCase().replaceAll("\\pP", " ");
     }
 
+    public Tag(String label) {
+        this.id = getNewId();
+        this.label = label;
+        this.value = label.toLowerCase().replaceAll("\\pP", " ");
+    }
+
     public static Tag emptyTag() {
         return new Tag(0, "NO_TAG");
     }

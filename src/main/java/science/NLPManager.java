@@ -37,4 +37,9 @@ public class NLPManager {
         this.messages = messages.concat(" ... " + message);
         recomputeTags();
     }
+
+    public void putFavoriteKeyWords(Map<String, TokenTag> favoritesKeyWords) {
+        keyWordsCollector.putFavoriteKeyWords(favoritesKeyWords);
+        recomputeTags();
+    }
 }

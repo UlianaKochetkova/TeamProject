@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class ChatController {
@@ -129,8 +130,8 @@ public class ChatController {
         	cachedData.put("msgs", msgs);
         	setCurrTag(((Tag)cachedData.get("currTag")).getId().toString(), model);
         }
-        
-        
+
+
         return getCurrChat(model);
     }
 
@@ -152,7 +153,7 @@ public class ChatController {
 //        model.addAttribute("msgs_count", messageRepo.findAllByChat((Chat)cachedData.get("currChat")).size());
 //        return "chat_template";
 //    }
-    
+
     @RequestMapping(value = "/getCurrChat", method = RequestMethod.GET)
     public String getCurrChat(Model model){
     	model.addAttribute("chat", cachedData.get("currChat"));
@@ -198,7 +199,7 @@ public class ChatController {
         cachedData.put("currTag", currTag);
         return "index";
     }
-    
+
     @RequestMapping(value = "/getTagMsgs", method = RequestMethod.GET)
     public String getTagMsgs(Model model){
         model.addAttribute("mt", messageTagRepo);
@@ -224,8 +225,13 @@ public class ChatController {
             }
             messageTags.forEach(messageTagRepo::save);
         }
+        System.out.println("All tags : " +
+                Application.nlpManager.keyWordsCollector.getTopTags(1)
+                        .stream()
+                        .map(science.Tag::getLabel)
+                        .collect(Collectors.toList()));
     }
-    
+
     @RequestMapping(value = "/groupTags", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String groupTags(@RequestParam MultiValueMap<String, Object> params, Model model){
         for (Map.Entry<String, List<Object>> param : params.entrySet()) {
@@ -237,29 +243,40 @@ public class ChatController {
         mergedTag.setColor(params.get("color").get(0).toString());
         mergedTag.setName(params.get("title").get(0).toString());
         mergedTag = tagRepo.save(mergedTag);
-        
+
+        Map<String, science.TokenTag> keyWordsFavorites = new HashMap<>();
+
         // Проходим по выбранным для объединения тегам
         for (Object objTagId : params.get("tags")) {
         	int tagId = Integer.parseInt(objTagId.toString());
         	Tag tag = tagRepo.findTagById(tagId);
-        	
+
         	//Связываем сообщения с новым тегом
+            //Это нужно делать в модуле science
+
+            keyWordsFavorites.put(tag.getName(), new science.TokenTag(new science.Tag(mergedTag.getName()), 1));
+
         	List<Message_Tag> messageTags = messageTagRepo.findAllByTag_Id(tagId);
+        	/*
         	for (Message_Tag mt : messageTags) {
         		messageTagRepo.save(new Message_Tag(mt.getMessage(), mergedTag));
-        	}
-        	
+        	}*/
+
         	// Обновить данные о тегах и их ключевых словах в модуле science ???
-        	
-        	// Удаляем все объекты message_tag для данного тега и сам тег
+
+            // Удаляем все объекты message_tag для данного тега и сам тег
         	messageTags.forEach(messageTagRepo::delete);
         	tagRepo.delete(tag);
         }
-        
+
+
+        Application.nlpManager.putFavoriteKeyWords(keyWordsFavorites);
+        recomputeTags(mergedTag.getChat().getId());
+
         //Меняем текущий тег на Main, чтобы обновить кешированные сообщения
         //setCurrTag(tagRepo.findByName("Main").getId().toString(), model);
         setCurrTag("0", model);
-        
+
         return getCurrChat(model);
     }
 }

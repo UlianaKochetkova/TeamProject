@@ -15,7 +15,7 @@ class TagAnalyzer {
             Map<Tag, Integer> tags = new HashMap<>();
             text = text.replace(" ", "%20");
             try {
-                URL url = new URL("http://termextract.fivefilters.org/extract.php?output=json&lowercase=1&maxwords=2&text=" + text);
+                URL url = new URL("http://termextract.fivefilters.org/extract.php?output=json&lowercase=1&maxwords=1&text=" + text);
                 URLConnection urlConnection = url.openConnection();
                 BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 String inputLine = in.readLine();

@@ -16,16 +16,20 @@ public class KeyWordsCollector {
     private Map<Tag, String> paths;
     private Map<String, TokenTag> keyWords;
     private Map<Tag, Integer> keyWordsCount;
+    private static Map<String, TokenTag> keyWordsFavorites = new HashMap<>();
 
     public KeyWordsCollector(Map<Tag, Integer> tags, Map<Tag, String> paths) {
         keyWords = new HashMap<>();
         keyWordsCount = new HashMap<>();
-        for (Map.Entry<Tag, Integer> tag : tags.entrySet()) {
-            this.keyWords.put(tag.getKey().getLabel().toLowerCase().replaceAll("\\pP", " "), new TokenTag(tag.getKey(), 1));
-            this.keyWordsCount.put(tag.getKey(), tag.getValue());
-        }
         this.paths = paths;
-        readAllDictionaries();
+        //readAllDictionaries();
+        readAllFavoritesKeyWords();
+        for (Map.Entry<Tag, Integer> tag : tags.entrySet()) {
+            if (!keyWords.containsKey(tag.getKey().getLabel())) {
+                this.keyWords.put(tag.getKey().getLabel().toLowerCase().replaceAll("\\pP", " "), new TokenTag(tag.getKey(), 1));
+                this.keyWordsCount.put(tag.getKey(), tag.getValue());
+            }
+        }
     }
 
     /**
@@ -54,6 +58,34 @@ public class KeyWordsCollector {
         } catch (IOException exception) {
             exception.printStackTrace();
         }
+    }
+
+    private void readAllFavoritesKeyWords() {
+        keyWords.putAll(keyWordsFavorites);
+    }
+
+    public void putFavoriteKeyWords(Map<String, TokenTag> favoritesKeyWords) {
+        Map<String, TokenTag> newKeyWordsFavorites = new HashMap<>();
+        for (Map.Entry<String, TokenTag> keyWord : favoritesKeyWords.entrySet()) {
+            boolean inKeyWords = false;
+            for (Map.Entry<String, TokenTag> tag : keyWordsFavorites.entrySet()) {
+                if (keyWord.getKey().equals(tag.getValue().getTag().getLabel())) {
+                    newKeyWordsFavorites.put(tag.getKey(), keyWord.getValue());
+                    inKeyWords = true;
+                }
+            }
+            if (!inKeyWords) {
+                newKeyWordsFavorites.put(keyWord.getKey(), keyWord.getValue());
+            }
+        }
+        Map<String, TokenTag> modifiedKeyWordsFavorites = new HashMap<>(keyWordsFavorites);
+        for (Map.Entry<String, TokenTag> tag : keyWordsFavorites.entrySet()) {
+            if (newKeyWordsFavorites.containsKey(tag.getValue().getTag().getLabel())) {
+                modifiedKeyWordsFavorites.remove(tag.getKey());
+            }
+        }
+        keyWordsFavorites = modifiedKeyWordsFavorites;
+        keyWordsFavorites.putAll(newKeyWordsFavorites);
     }
 
     public TokenTag getToken(String word) {
