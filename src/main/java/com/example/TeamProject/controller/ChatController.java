@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -58,12 +59,14 @@ public class ChatController {
         lst.sort(Comparator.comparing(Message::getCreate_date).reversed());
         cachedData.put("msgs", lst);
         cachedData.put("currTag", tagRepo.findByName("Main"));
+        cachedData.put("msgsCount", messageRepo.findAllByChat((Chat)cachedData.get("currChat")).size());
 
         model.addAttribute("chats",chatRepo.findAll());
         model.addAttribute("chat", cachedData.get("currChat"));
         model.addAttribute("tags", tagRepo.findAllByChat((Chat)cachedData.get("currChat")));
         model.addAttribute("msgs", cachedData.get("msgs"));
         model.addAttribute("mt", messageTagRepo);
+        model.addAttribute("msgs_count", cachedData.get("msgsCount"));
         return "new_chat";
     }
 
@@ -79,6 +82,7 @@ public class ChatController {
         msg.setUser(userRepo.findUserByPhoneNum(authentication.getName()));
         msg.setChat((Chat)cachedData.get("currChat"));
         messageRepo.save(msg);
+        cachedData.put("msgsCount", ((Integer)cachedData.get("msgsCount")) + 1);
         Tag currTag = (Tag)cachedData.get("currTag");
         //Tags
         boolean tagChanged = true;
@@ -101,9 +105,7 @@ public class ChatController {
 
         List<Message_Tag> messageTags = new ArrayList<>();
         for (science.Tag messageTag : scienceMessage.getListMessageTags(3)) {
-            Message_Tag message_tag = new Message_Tag();
-            message_tag.setMessage(msg);
-            message_tag.setTag(tagRepo.findByName(messageTag.getLabel()));
+            Message_Tag message_tag = new Message_Tag(msg, tagRepo.findByName(messageTag.getLabel()));
             if (message_tag.getTag() != null) {
                 if (message_tag.getTag().equals(currTag)) {
                     tagChanged = false;
@@ -127,12 +129,7 @@ public class ChatController {
         }
         
         
-        model.addAttribute("chat", cachedData.get("currChat"));
-        model.addAttribute("tags", tagRepo.findAllByChat((Chat)cachedData.get("currChat")));
-        model.addAttribute("msgs", cachedData.get("msgs"));
-        model.addAttribute("mt", messageTagRepo);
-        model.addAttribute("msgs_count", messageRepo.findAllByChat((Chat)cachedData.get("currChat")).size());
-        return "chat_template";
+        return getCurrChat(model);
     }
 
 ///////////////////////////////   ЧАТ ПО ID ////////////////////////////////////////////////////
@@ -153,6 +150,16 @@ public class ChatController {
 //        model.addAttribute("msgs_count", messageRepo.findAllByChat((Chat)cachedData.get("currChat")).size());
 //        return "chat_template";
 //    }
+    
+    @RequestMapping(value = "/getCurrChat", method = RequestMethod.GET)
+    public String getCurrChat(Model model){
+    	model.addAttribute("chat", cachedData.get("currChat"));
+        model.addAttribute("tags", tagRepo.findAllByChat((Chat)cachedData.get("currChat")));
+        model.addAttribute("msgs", cachedData.get("msgs"));
+        model.addAttribute("mt", messageTagRepo);
+        model.addAttribute("msgs_count", cachedData.get("msgsCount"));
+        return "chat_template";
+    }
 
 ////////////////////////////////  ТЕГИ  /////////////////////////////////////
 
@@ -198,9 +205,7 @@ public class ChatController {
                 Tag tag = tagRepo.findByName(messageTag.getLabel());
                 if (tag != null) {
                     if (messageTagRepo.findByMessage_IdAndTag_Id(message.getId(), tag.getId()) == null) {
-                        Message_Tag message_tag = new Message_Tag();
-                        message_tag.setMessage(message);
-                        message_tag.setTag(tag);
+                        Message_Tag message_tag = new Message_Tag(message, tag);
                         if (message_tag.getTag() != null) {
                             messageTags.add(message_tag);
                         }
@@ -209,5 +214,41 @@ public class ChatController {
             }
             messageTags.forEach(messageTagRepo::save);
         }
+    }
+    
+    @RequestMapping(value = "/groupTags", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String groupTags(@RequestParam MultiValueMap<String, Object> params, Model model){
+        for (Map.Entry<String, List<Object>> param : params.entrySet()) {
+        	System.out.println(param.getKey() + " : " + param.getValue());
+        }
+        // Создаём новый тег и сохраняем его
+        Tag mergedTag = new Tag();
+        mergedTag.setChat((Chat)cachedData.get("currChat"));
+        mergedTag.setColor(params.get("color").get(0).toString());
+        mergedTag.setName(params.get("title").get(0).toString());
+        mergedTag = tagRepo.save(mergedTag);
+        
+        // Проходим по выбранным для объединения тегам
+        for (Object objTagId : params.get("tags")) {
+        	int tagId = Integer.parseInt(objTagId.toString());
+        	Tag tag = tagRepo.findTagById(tagId);
+        	
+        	//Связываем сообщения с новым тегом
+        	List<Message_Tag> messageTags = messageTagRepo.findAllByTag_Id(tagId);
+        	for (Message_Tag mt : messageTags) {
+        		messageTagRepo.save(new Message_Tag(mt.getMessage(), mergedTag));
+        	}
+        	
+        	// Обновить данные о тегах и их ключевых словах в модуле science ???
+        	
+        	// Удаляем все объекты message_tag для данного тега и сам тег
+        	messageTags.forEach(messageTagRepo::delete);
+        	tagRepo.delete(tag);
+        }
+        
+        //Меняем текущий тег на Main, чтобы обновить кешированные сообщения
+        setCurrTag(tagRepo.findByName("Main").getId().toString(), model);
+        
+        return getCurrChat(model);
     }
 }

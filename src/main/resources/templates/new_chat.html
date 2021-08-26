@@ -138,23 +138,25 @@
 							<div class="card-body msg_card_body">
 
 								<h3 class="crheader"> Group Tags</h3>
+								
+								<form id="newTagForm" name="newTagForm" onsubmit="groupTags(); return false;">
+									<label for="title" class="label">Enter name</label>
+									<input class="form-control type_msg chatinput" type="text" id="title" name="title" placeholder="Tag name" required>
+									<!--								Добавить выбор цвета-->
+									<label for="color" class="label">Color</label>
+									<input class="form-control type_msg chatinput" type="color" id="color" name="color">
 
-								<label class="label">Enter name</label>
-								<input class="form-control type_msg chatinput" type="text" name="title" placeholder="Tag name" required>
-								<!--								Добавить выбор цвета-->
-								<label class="label">Color</label>
-								<input class="form-control type_msg chatinput" type="color">
+									<label for="tags" class="label">Choose keywords</label>
+									<select multiple id="tags" name="tags">
+										<option th:each="t : ${tags}" th:value="${t.getId()}" th:text="${t.getName()}">
+										</option>
+									</select>
 
-								<label class="label">Choose keywords</label>
-								<select multiple>
-									<option th:each="t : ${tags}" th:value="${t.getId()}" th:text="${t.getName()}">
-									</option>
-								</select>
-
-								<div class="buttons">
-									<button class="input-group-text createbutton" id="back" type="reset">Back</button>
-									<button class="input-group-text createbutton" id="create" type="submit">Group tags</button>
-								</div>
+									<div class="buttons">
+										<button class="input-group-text createbutton" id="back" type="reset">Back</button>
+										<button class="input-group-text createbutton" id="create" type="submit">Group tags</button>
+									</div>
+								</form>
 							</div>
 						</div>
 					</div>

@@ -15,6 +15,16 @@ public class Message_Tag {
     @ManyToOne
     @JoinColumn(name="tag_id")
     private Tag tag;
+    
+    public Message_Tag(Message _message, Tag _tag) {
+    	this.setMessage(_message);
+    	this.setTag(_tag);
+    }
+    
+    public Message_Tag() {
+    	message = null;
+    	tag = null;
+    }
 
     public Integer getId() {
         return id;

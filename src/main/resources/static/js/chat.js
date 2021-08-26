@@ -8,12 +8,14 @@
 			$('#groupTags').show();
 			$('#groupTags').css("margin", "auto");
 		});
+		$('#back').click(function(){
+		 	$("#groupTags").hide();
+		});
 
 		// $('#cancel').click(function(){
 		// 	$("#hide").hide();
 		// });
 
-		//document.getElementById("inputForm").addEventListener("submit", getMsg);
 	});
 
 
@@ -90,6 +92,31 @@ function getMsg(){
 		if (xhr.status === 200) {
 			document.getElementById("chat_body").innerHTML = xhr.response;
 			document.getElementById("msg").value = "";
+			
+			$("#groupTags").hide();
+			$('#admin').click(function(){
+				$('#groupTags').show();
+				$('#groupTags').css("margin", "auto");
+			});
+			$('#back').click(function(){
+				$("#groupTags").hide();
+			});			
+			
+		} else {
+			alert('Request failed. Returned status of ' + xhr.status);
+		}
+	};
+	return false;
+}
+
+function groupTags(){
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", "/groupTags", true);
+	xhr.send(new FormData(document.getElementById("newTagForm")));
+	xhr.onload = function() {
+		console.log(`Загружено: ${xhr.status} ${xhr.response}`);
+		if (xhr.status === 200) {
+			document.getElementById("chat_body").innerHTML = xhr.response;
 
 			$("#groupTags").hide();
 			$('#admin').click(function(){
@@ -103,7 +130,6 @@ function getMsg(){
 			alert('Request failed. Returned status of ' + xhr.status);
 		}
 	};
-	//event.preventDefault();
 	return false;
 }
 
