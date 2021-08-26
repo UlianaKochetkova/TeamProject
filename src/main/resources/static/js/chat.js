@@ -11,11 +11,16 @@
 		$('#back').click(function(){
 		 	$("#groupTags").hide();
 		});
-
-		// $('#cancel').click(function(){
-		// 	$("#hide").hide();
-		// });
-
+		
+		$("#chat_info").hide();
+		$('#chat_info_but').click(function(){
+			$('#chat_info').show();
+			$('#chat_info').css("margin", "auto");
+		});
+		$('#backChat').click(function(){
+		 	$("#chat_info").hide();
+		});
+		
 	});
 
 
@@ -29,15 +34,20 @@
 	//Функция, которая получает id юзера, чью страницу нужно вывести
 	//Закреплена за именем пользователя на сообщении
 	function toUser(id){
-		console.log(id);
-		//$('#userpage').show();
-	}
-
-
-	//Функция, которая получает id чата, информацию о котором нужно вывести
-	//закреплена на кнопке справа в шапке чата
-	function aboutChat(id){
-
+		var xhr = new XMLHttpRequest();
+		xhr.open("GET", "/getUser?id="+id, true);
+		xhr.send();
+		xhr.onload = function() {
+			if (xhr.status === 200) {
+				document.getElementById("userpage").innerHTML = xhr.response;
+				$('#backUser').click(function(){
+					document.getElementById("userpage").innerHTML = "";
+				});
+			} else {
+				alert('Request failed. Returned status of ' + xhr.status);
+			}
+		};
+		
 	}
 
 /////////////////////////////////////////////////////////////////
@@ -102,6 +112,14 @@ function getMsg(){
 				$("#groupTags").hide();
 			});			
 			
+			$("#chat_info").hide();
+			$('#chat_info_but').click(function(){
+				$('#chat_info').show();
+				$('#chat_info').css("margin", "auto");
+			});
+			$('#backChat').click(function(){
+				$("#chat_info").hide();
+			});
 		} else {
 			alert('Request failed. Returned status of ' + xhr.status);
 		}
