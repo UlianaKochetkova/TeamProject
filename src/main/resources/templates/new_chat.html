@@ -148,7 +148,7 @@
 
 									<label for="tags" class="label">Choose keywords</label>
 									<select multiple id="tags" name="tags">
-										<option th:each="t : ${tags}" th:value="${t.getId()}" th:text="${t.getName()}">
+										<option th:each="t : ${tags}" th:if="${t.getId()} != 1" th:value="${t.getId()}" th:text="${t.getName()}">
 										</option>
 									</select>
 
