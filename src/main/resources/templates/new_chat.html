@@ -8,6 +8,7 @@
 		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
 		<link rel="stylesheet" th:href="@{/css/chat_style.css}"/>
+		<link rel="stylesheet" th:href="@{/css/user_style.css}"/>
 		<script src="js/chat.js"></script>
 	</head>
 	<body>
@@ -72,7 +73,7 @@
 									</button>
 
 									<!--	   Кнопка информации по чату			-->
-									<button th:attr="onclick=|aboutChat('${chat.getId()}')|" class="input-group-text chatbut" type="submit">
+									<button id="chat_info_but" class="input-group-text chatbut" type="submit">
 										<i class="fa fa-comments" aria-hidden="true"></i>
 									</button>
 								</div>
@@ -129,7 +130,7 @@
 			</div>
 		</div>
 
-<!--	------------------------------------------------------------------------->
+<!--	Группировка тегов	------------------------------------------------------------------------->
 		<div id="groupTags">
 			<div class="background">
 				<div class="back1">
@@ -162,6 +163,37 @@
 					</div>
 				</div>
 			</div>
+		</div>
+		
+<!--	Блок с информацией о чате	-->
+		<div id="chat_info">
+			<div class="background">
+				<div class="back1">
+					<div class="container-fluid">
+						<div class="row justify-content-center">
+							<div class="card-body msg_card_body">
+								<h3 class="crheader" th:text="${chat.getTitle()}"></h3>
+								<h6 class="crheader" th:text="${chat.getDescription()}"></h6>
+								<hr>
+								<label class="label">Users:</label>
+								<ul class="border">
+									<li th:each="user_chat : ${chat_users}">
+										<span class="text-white" th:text="${user_chat.getUser().getUsername()}"></span>
+									</li>
+								</ul>
+
+								<div class="buttons">
+									<button class="input-group-text createbutton" id="backChat" type="reset">Back to chat</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+<!--	Блок с данными пользователя	-->
+		<div id="userpage">
 		</div>
 	</body>
 </html>

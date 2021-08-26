@@ -67,6 +67,7 @@ public class ChatController {
         model.addAttribute("msgs", cachedData.get("msgs"));
         model.addAttribute("mt", messageTagRepo);
         model.addAttribute("msgs_count", cachedData.get("msgsCount"));
+        model.addAttribute("chat_users", userChatRepo.findAllByChat((Chat)cachedData.get("currChat")));
         return "new_chat";
     }
 
@@ -158,6 +159,7 @@ public class ChatController {
         model.addAttribute("msgs", cachedData.get("msgs"));
         model.addAttribute("mt", messageTagRepo);
         model.addAttribute("msgs_count", cachedData.get("msgsCount"));
+        model.addAttribute("chat_users", userChatRepo.findAllByChat((Chat)cachedData.get("currChat")));
         return "chat_template";
     }
 
