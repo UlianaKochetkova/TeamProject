@@ -71,6 +71,24 @@ function getTagMsgs(){
 		console.log(`Загружено: ${xhr.status} ${xhr.response}`);
 		if (xhr.status === 200) {
 			document.getElementById("msgs_body").innerHTML = xhr.response;
+
+			$("#groupTags").hide();
+			$('#admin').click(function(){
+				$('#groupTags').show();
+				$('#groupTags').css("margin", "auto");
+			});
+			$('#back').click(function(){
+				$("#groupTags").hide();
+			});
+
+			$("#chat_info").hide();
+			$('#chat_info_but').click(function(){
+				$('#chat_info').show();
+				$('#chat_info').css("margin", "auto");
+			});
+			$('#backChat').click(function(){
+				$("#chat_info").hide();
+			});
 		} else {
 			alert('Request failed. Returned status of ' + xhr.status);
 		}
@@ -143,6 +161,15 @@ function groupTags(){
 			});
 			$('#back').click(function(){
 				$("#groupTags").hide();
+			});
+
+			$("#chat_info").hide();
+			$('#chat_info_but').click(function(){
+				$('#chat_info').show();
+				$('#chat_info').css("margin", "auto");
+			});
+			$('#backChat').click(function(){
+				$("#chat_info").hide();
 			});
 		} else {
 			alert('Request failed. Returned status of ' + xhr.status);
