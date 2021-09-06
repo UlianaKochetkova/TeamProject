@@ -27,7 +27,9 @@ class TagAnalyzer {
                             .replaceAll("\"", "");
                     String[] tag = tagString.split(",");
                     System.out.println(tagString);
-                    tags.put(new Tag(Tag.getNewId(), tag[0]), Integer.valueOf(tag[1]));
+                    if (!tag[0].equals("")) {
+                        tags.put(new Tag(Tag.getNewId(), tag[0]), Integer.valueOf(tag[1]));
+                    }
                 }
                 in.close();
                 return tags;

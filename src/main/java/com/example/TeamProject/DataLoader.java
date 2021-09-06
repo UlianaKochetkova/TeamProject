@@ -7,6 +7,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.Date;
 
 @Component
 public class DataLoader {
@@ -85,10 +87,45 @@ public class DataLoader {
         uc1.setUser(u2);
         uc1.setChat(chat);
         userChatRepo.save(uc1);
+
+        ChatEmulator chatEmulator = new ChatEmulator(u1, chat, new Date());
+
+        chatEmulator.emulateChat();
         
 //        Tag tag0=new Tag();
 //        tag0.setName("Main");
 //        tag0.setChat(chat);
 //        tagRepo.save(tag0);
+    }
+
+    private class ChatEmulator {
+        private User user;
+        private Chat chat;
+        private Date createDate;
+
+        ChatEmulator(User user, Chat chat, Date createDate) {
+            this.user = user;
+            this.chat = chat;
+            this.createDate = createDate;
+        }
+
+        private void emulateChat() {
+            Application.messages = new ArrayList<>();
+            emulateMessageSending("Thema");
+            emulateMessageSending("Thema");
+            emulateMessageSending("Something new");
+        }
+
+        private void emulateMessageSending(String messageText) {
+            Message message = new Message();
+            message.setUser(user);
+            message.setText(messageText);
+            message.setChat(chat);
+            message.setCreate_date(createDate);
+
+            Application.messages.add(messageText);
+
+            messageRepo.save(message);
+        }
     }
 }
