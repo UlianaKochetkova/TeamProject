@@ -9,11 +9,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Component
 public class Colors {
     private ArrayList<String> colors;
-    private AtomicInteger index;
+    //private AtomicInteger index;
+    private int index;
 
     public Colors(){
         colors = new ArrayList<String>();
-        index=new AtomicInteger(-1);
+        //index=new AtomicInteger(-1);
+        index=-1;
 
         colors.add("#FA8072");
         colors.add("#00FF7F");
@@ -40,11 +42,19 @@ public class Colors {
 //        return colors.get(index.get() % colors.size());
 //    }
 
+//    public String getColor(){
+//        if (index.get() == colors.size()-1){
+//            index.set(-1);
+//        }
+//        index.getAndIncrement();
+//        return colors.get(index.get());
+//    }
+
     public String getColor(){
-        if (index.get() == colors.size()-1){
-            index.set(-1);
+        if (index == colors.size()-1){
+            index=-1;
         }
-        index.getAndIncrement();
-        return colors.get(index.get());
+        index+=1;
+        return colors.get(index);
     }
 }

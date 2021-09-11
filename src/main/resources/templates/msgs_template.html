@@ -2,7 +2,7 @@
 	<div class="msg_cotainer">
 		<div class="d-flex firstline">
 		<div class="topmsg">
-			<a class="username text-dark" th:href="@{/user/{id}(id=${m.getUser().getId()})}" th:text="${m.getUser().getUsername()}" target="_blank"></a>
+			<a class="username text-dark" th:attr="onclick=|toUser('${m.getUser().getId()}')|" th:text="${m.getUser().getUsername()}"></a>
 		</div>
 			<div class="tagblock">
 				<div th:each="t : ${mt.findAllByMessage_Id(m.getId())}">
