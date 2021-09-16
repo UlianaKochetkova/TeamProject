@@ -22,7 +22,7 @@ public class KeyWordsCollector {
         keyWords = new HashMap<>();
         keyWordsCount = new HashMap<>();
         this.paths = paths;
-        //readAllDictionaries();
+        readAllDictionaries();
         readAllFavoritesKeyWords();
         for (Map.Entry<Tag, Integer> tag : tags.entrySet()) {
             if (!keyWords.containsKey(tag.getKey().getLabel())) {

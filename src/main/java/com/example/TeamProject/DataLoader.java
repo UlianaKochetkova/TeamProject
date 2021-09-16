@@ -7,6 +7,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -88,7 +92,7 @@ public class DataLoader {
         uc1.setChat(chat);
         userChatRepo.save(uc1);
 
-        ChatEmulator chatEmulator = new ChatEmulator(u1, chat, new Date());
+        ChatEmulator chatEmulator = new ChatEmulator(u1, chat);
 
         chatEmulator.emulateChat();
         
@@ -101,19 +105,18 @@ public class DataLoader {
     private class ChatEmulator {
         private User user;
         private Chat chat;
-        private Date createDate;
 
-        ChatEmulator(User user, Chat chat, Date createDate) {
+        ChatEmulator(User user, Chat chat) {
             this.user = user;
             this.chat = chat;
-            this.createDate = createDate;
         }
 
         private void emulateChat() {
             Application.messages = new ArrayList<>();
-            emulateMessageSending("Thema");
-            emulateMessageSending("Thema");
-            emulateMessageSending("Something new");
+            //emulateMessageSending("Thema");
+            //emulateMessageSending("Thema");
+            //emulateMessageSending("Something new");
+            readFile();
         }
 
         private void emulateMessageSending(String messageText) {
@@ -121,11 +124,26 @@ public class DataLoader {
             message.setUser(user);
             message.setText(messageText);
             message.setChat(chat);
-            message.setCreate_date(createDate);
+            message.setCreate_date(new Date());
 
             Application.messages.add(messageText);
 
             messageRepo.save(message);
+        }
+
+        void readFile() {
+            InputStream inputStream = getClass().getResourceAsStream("/dictionaries/chat.txt");
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+            try {
+                while (bufferedReader.ready()) {
+                    String line = bufferedReader.readLine();
+                    emulateMessageSending(line);
+                }
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
         }
     }
 }

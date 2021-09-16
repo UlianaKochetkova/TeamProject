@@ -20,7 +20,7 @@ public class Application {
         nlpManager = new NLPManager();
 
         for (String message : messages) {
-            nlpManager.addMessage(message);
+            nlpManager.addMessage(message, false);
         }
     }
 

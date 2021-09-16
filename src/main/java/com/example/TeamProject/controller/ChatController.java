@@ -89,7 +89,7 @@ public class ChatController {
         Tag currTag = (Tag)cachedData.get("currTag");
         //Tags
         boolean tagChanged = true;
-        Application.nlpManager.addMessage(msg.getText());
+        Application.nlpManager.addMessage(msg.getText(), true);
 
         for (science.Tag tag : Application.nlpManager.keyWordsCollector.getTopTags(2)) {
             if (!tagRepo.existsByName(tag.getLabel())) {

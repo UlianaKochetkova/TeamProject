@@ -33,9 +33,12 @@ public class NLPManager {
      *
      * @param message
      */
-    public void addMessage(String message) {
+    public void addMessage(String message, boolean isRecompute) {
         this.messages = messages.concat(" ... " + message);
-        recomputeTags();
+        if (isRecompute) {
+            recomputeTags();
+            System.out.println(messages.length());
+        }
     }
 
     public void putFavoriteKeyWords(Map<String, TokenTag> favoritesKeyWords) {

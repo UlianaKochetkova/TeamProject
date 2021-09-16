@@ -19,6 +19,7 @@ public class Message {
     Chat chat;
 
     Date create_date;
+    @Column(length = 2048)
     String text;
 
     public Integer getId() {

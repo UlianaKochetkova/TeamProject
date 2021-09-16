@@ -40,6 +40,6 @@ public class MessageTags extends HashMap<Tag, Double> {
 
     @Override
     public String toString() {
-        return getTopTagsMap(3).toString();
+        return getTopTagsMap(7).toString();
     }
 }
