@@ -33,7 +33,10 @@
         <div class="grouptags">
             <div class="tags">
                 <div>
-                <button th:attr="onclick=|setCurrTag(0)|"  class="tag" style="background:#ffffff;">Main</button>
+                    <button th:attr="onclick=|setCurrTag(0)|"  class="tag" style="background:#ffffff;">Main</button>
+                </div>
+                <div>
+                    <button th:attr="onclick=|setCurrTag(-1)|"  class="tag" style="background:#68F914;">AntiSpam</button>
                 </div>
                     <div th:each="t : ${tags}">
                     <button  th:attr="onclick=|setCurrTag('${t.getId()}')|"  class="tag" th:style="'background:'+ ${t.getColor()}+';'" th:text="${t.getName()}"></button>

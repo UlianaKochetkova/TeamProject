@@ -12,4 +12,6 @@ public interface MessageTagRepository extends JpaRepository<Message_Tag, Integer
     List<Message_Tag> findAllByTag_Id(Integer id);
 
     Message_Tag findByMessage_IdAndTag_Id(Integer messageId, Integer tagId);
+    List<Message_Tag> findAllByTag_NameIsNot(String name);
+    List<Message_Tag> findAllByTag_Name(String tagName);
 }

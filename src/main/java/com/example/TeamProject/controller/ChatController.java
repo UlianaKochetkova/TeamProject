@@ -173,6 +173,9 @@ public class ChatController {
         if (tId==0){
             currTag=new Tag(0,(Chat) cachedData.get("currChat"),"Main");
         }
+        else if (tId==-1){
+            currTag=new Tag(-1,(Chat) cachedData.get("currChat"),"AntiSpam");
+        }
         else currTag = tagRepo.findById(tId).get();
 
         //Tag currTag = tagRepo.findById(tId).get();
@@ -183,6 +186,16 @@ public class ChatController {
             List<Message> tagmsg = new ArrayList<Message>();
             if (currTag.getName().equals("Main")) {
             	tagmsg = messageRepo.findAll();
+            }
+            //пробуем фиксить здесь момент по отсутствию спама
+            else if (currTag.getName().equals("AntiSpam")){
+                List<Message> all = messageRepo.findAll();
+                List<Message_Tag> mt = messageTagRepo.findAllByTag_Name("SPAM");
+                for (int i=0;i < mt.size(); i++){
+                    tagmsg.add(mt.get(i).getMessage());
+                }
+                all.removeAll(tagmsg);
+                tagmsg=all;
             }
             else {
             	List<Message_Tag> mt = messageTagRepo.findAllByTag_Id(tId);
