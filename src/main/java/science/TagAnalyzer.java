@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 class TagAnalyzer {
+
     Map<Tag, Integer> analyze(String text) {
         if (!text.isEmpty()) {
             Map<Tag, Integer> tags = new HashMap<>();

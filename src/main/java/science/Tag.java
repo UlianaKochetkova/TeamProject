@@ -4,7 +4,8 @@ package science;
  * Простейший класс тэга
  */
 public class Tag {
-    private static int maxId = 4;
+
+    private static int maxId = 2;
     private int id;
     private String label;
     private String value;

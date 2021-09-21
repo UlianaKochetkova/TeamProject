@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
  * Хранит в себе список всех существующих в данные момент тэгов и ключевых слов, умеет читать их из словарей
  */
 public class KeyWordsCollector {
+
     private Map<Tag, String> paths;
     private Map<String, TokenTag> keyWords;
     private Map<Tag, Integer> keyWordsCount;

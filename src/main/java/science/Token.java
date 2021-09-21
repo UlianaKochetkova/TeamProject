@@ -3,7 +3,7 @@ package science;
 import com.example.TeamProject.Application;
 
 /**
- * В принципе это просто оно слово сообщения
+ * В принципе это просто одно слово сообщения
  */
 public class Token {
 
