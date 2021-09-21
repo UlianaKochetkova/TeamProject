@@ -51,6 +51,7 @@
 	}
 
 /////////////////////////////////////////////////////////////////
+
 function getTagMsgs(){
 	//https://learn.javascript.ru/xmlhttprequest
 //XMLHttpRequest - встроенный в браузер объект, который даёт возможность делать HTTP-запросы к серверу без перезагрузки страницы
@@ -94,6 +95,7 @@ function getTagMsgs(){
 		}
 	};
 }
+
 
 function setCurrTag(tagid){
 	var xhr = new XMLHttpRequest();

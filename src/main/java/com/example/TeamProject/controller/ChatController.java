@@ -116,8 +116,6 @@ public class ChatController {
         messageTags.forEach(messageTagRepo::save);
         recomputeTags(((Chat) cachedData.get("currChat")).getId());
         // Обновляем текущий тег
-        //TODO:currtag
-        //if(tagChanged && !currTag.equals(tagRepo.findByName("Main"))) {
         if(tagChanged && !currTag.equals(new Tag(0,(Chat) cachedData.get("currChat"),"Main"))) {
         	//setCurrTag(tagRepo.findByName("Main").getId().toString(), model);
             setCurrTag("0", model);
