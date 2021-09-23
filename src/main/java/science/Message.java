@@ -33,7 +33,6 @@ public class Message {
                 .forEach(tokenTag -> messageTags.addRate(tokenTag));
     }
 
-
     public MessageTags getMessageTags() {
         return messageTags;
     }

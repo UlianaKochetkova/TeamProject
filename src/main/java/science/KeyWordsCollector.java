@@ -52,7 +52,7 @@ public class KeyWordsCollector {
                         tokenLine[0],
                         new TokenTag(tag, Double.parseDouble(tokenLine[1])));
                 keyWordsCount.put(
-                        Tag.spamTag(),
+                        tag,
                         Integer.MAX_VALUE
                 );
             }

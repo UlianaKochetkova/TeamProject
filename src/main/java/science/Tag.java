@@ -12,6 +12,7 @@ public class Tag {
 
     public Tag(int id, String label) {
         this.id = id;
+        maxId = Math.max(id + 1, maxId);
         this.label = label;
         this.value = label.toLowerCase().replaceAll("\\pP", " ");
     }
@@ -24,10 +25,6 @@ public class Tag {
 
     public static Tag emptyTag() {
         return new Tag(0, "NO_TAG");
-    }
-
-    public static Tag spamTag() {
-        return new Tag(1, "SPAM");
     }
 
     public static int getNewId() {
