@@ -268,10 +268,10 @@ public class ChatController {
             keyWordsFavorites.put(tag.getName(), new science.TokenTag(new science.Tag(mergedTag.getName()), 1));
 
         	List<Message_Tag> messageTags = messageTagRepo.findAllByTag_Id(tagId);
-        	/*
+        	
         	for (Message_Tag mt : messageTags) {
         		messageTagRepo.save(new Message_Tag(mt.getMessage(), mergedTag));
-        	}*/
+        	}
 
         	// Обновить данные о тегах и их ключевых словах в модуле science ???
 

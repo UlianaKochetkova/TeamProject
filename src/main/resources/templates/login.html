@@ -26,10 +26,10 @@
                 <div class="card-body msg_card_body">
                     <h3 class="crheader">Please sign in</h3>
                     <form  th:action="@{/login}" method="post">
-                                    <div th:if="${param.error}">
+                                    <div class="text-white" th:if="${param.error}">
                                         Invalid username and password.
                                     </div>
-                                    <div th:if="${param.logout}">
+                                    <div class="text-white" th:if="${param.logout}">
                                         You have been logged out.
                                     </div>
                     <label class="label">Phonenumber</label>
