@@ -48,7 +48,7 @@ public class DataLoader {
     @PostConstruct
     public void loadData(){
         Chat chat=new Chat();
-        chat.setTitle("Student chat");
+        chat.setTitle("Students chat");
         chat.setDescription("Chat with students");
         chatRepo.save(chat);
 

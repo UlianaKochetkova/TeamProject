@@ -55,7 +55,7 @@ public class ChatController {
     @GetMapping("/chat1")
     public String chat1(Model model){
         // Запоминаем текущий чат, сообщения текущего чат и текущий тег в "кэше"
-        cachedData.put("currChat", chatRepo.findChatByTitle("Student chat"));
+        cachedData.put("currChat", chatRepo.findChatByTitle("Students chat"));
         List<Message> lst = messageRepo.findAllByChat((Chat)cachedData.get("currChat"));
         lst.sort(Comparator.comparing(Message::getCreate_date).reversed());
         cachedData.put("msgs", lst);
