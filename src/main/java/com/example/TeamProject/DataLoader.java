@@ -48,14 +48,14 @@ public class DataLoader {
     @PostConstruct
     public void loadData(){
         Chat chat=new Chat();
-        chat.setTitle("chat1");
-        chat.setDescription("d1");
+        chat.setTitle("Student chat");
+        chat.setDescription("Chat with students");
         chatRepo.save(chat);
 
-        Chat chat2=new Chat();
-        chat2.setTitle("chat2");
-        chat2.setDescription("d2");
-        chatRepo.save(chat2);
+//        Chat chat2=new Chat();
+//        chat2.setTitle("chat2");
+//        chat2.setDescription("d2");
+//        chatRepo.save(chat2);
 
         Role r1=new Role("User");
         Role r2=new Role("Admin");
