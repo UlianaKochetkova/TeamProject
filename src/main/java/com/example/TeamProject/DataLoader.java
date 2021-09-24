@@ -13,6 +13,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Random;
 
 @Component
 public class DataLoader {
@@ -62,14 +64,24 @@ public class DataLoader {
 
         User u1=new User();
         User u2=new User();
-        u1.setUsername("user1");
+        User u3 = new User();
+        User u4 = new User();
+        u1.setUsername("Dasha");
         u1.setPhoneNum("+12345678901");
         u1.setPassword(passwordEncoder.encode("admin"));
-        u2.setUsername("user2");
+        u2.setUsername("Maxim Ka");
         u2.setPhoneNum("+98765432109");
         u2.setPassword(passwordEncoder.encode("user"));
+        u3.setUsername("Max");
+        u3.setPhoneNum("+23456789012");
+        u3.setPassword(passwordEncoder.encode("user1"));
+        u4.setUsername("Ulyana");
+        u4.setPhoneNum("+34567890123");
+        u4.setPassword(passwordEncoder.encode("user2"));
         userRepo.save(u1);
         userRepo.save(u2);
+        userRepo.save(u3);
+        userRepo.save(u4);
 
         User_Roles ur=new User_Roles();
         ur.setUser(u1);
@@ -78,6 +90,16 @@ public class DataLoader {
 
         User_Roles ur1=new User_Roles();
         ur1.setUser(u2);
+        ur1.setRole(roleRepo.findRoleByName("User"));
+        userRoleRepo.save(ur1);
+
+        User_Roles ur2 = new User_Roles();
+        ur1.setUser(u3);
+        ur1.setRole(roleRepo.findRoleByName("User"));
+        userRoleRepo.save(ur1);
+
+        User_Roles ur3 = new User_Roles();
+        ur1.setUser(u4);
         ur1.setRole(roleRepo.findRoleByName("User"));
         userRoleRepo.save(ur1);
 
@@ -92,7 +114,7 @@ public class DataLoader {
         uc1.setChat(chat);
         userChatRepo.save(uc1);
 
-        ChatEmulator chatEmulator = new ChatEmulator(u1, chat);
+        ChatEmulator chatEmulator = new ChatEmulator(List.of(u1, u2, u3, u4), chat);
 
         chatEmulator.emulateChat();
         
@@ -103,25 +125,24 @@ public class DataLoader {
     }
 
     private class ChatEmulator {
-        private User user;
+        private List<User> users;
         private Chat chat;
+        private Random random;
 
-        ChatEmulator(User user, Chat chat) {
-            this.user = user;
+        ChatEmulator(List<User> users, Chat chat) {
+            this.users = users;
             this.chat = chat;
+            this.random = new Random(chat.getTitle().hashCode());
         }
 
         private void emulateChat() {
             Application.messages = new ArrayList<>();
-            //emulateMessageSending("Thema");
-            //emulateMessageSending("Thema");
-            //emulateMessageSending("Something new");
             readFile();
         }
 
         private void emulateMessageSending(String messageText) {
             Message message = new Message();
-            message.setUser(user);
+            message.setUser(users.get(random.nextInt(4)));
             message.setText(messageText);
             message.setChat(chat);
             message.setCreate_date(new Date());

@@ -19,7 +19,7 @@ public class Message {
     }
 
     private List<Token> tokensListFromString(String text) {
-        return Arrays.stream(text.split(" "))
+        return Arrays.stream(text.replaceAll("\\pP", " ").split(" "))
                 .map(Token::new)
                 .collect(Collectors.toList());
     }
