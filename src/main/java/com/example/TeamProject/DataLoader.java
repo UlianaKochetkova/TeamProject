@@ -96,12 +96,12 @@ public class DataLoader {
         User_Roles ur2 = new User_Roles();
         ur1.setUser(u3);
         ur1.setRole(roleRepo.findRoleByName("User"));
-        userRoleRepo.save(ur1);
+        userRoleRepo.save(ur2);
 
         User_Roles ur3 = new User_Roles();
         ur1.setUser(u4);
         ur1.setRole(roleRepo.findRoleByName("User"));
-        userRoleRepo.save(ur1);
+        userRoleRepo.save(ur3);
 
         User_Chat uc=new User_Chat();
 

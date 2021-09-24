@@ -258,6 +258,8 @@ public class ChatController {
         Map<String, science.TokenTag> keyWordsFavorites = new HashMap<>();
 
         // Проходим по выбранным для объединения тегам
+        //Проверяем уникальность сообщений, к которым привязаны объяединяемые теги
+    	Set<Integer> uniqueMessages = new HashSet<Integer>();
         for (Object objTagId : params.get("tags")) {
         	int tagId = Integer.parseInt(objTagId.toString());
         	Tag tag = tagRepo.findTagById(tagId);
@@ -270,7 +272,9 @@ public class ChatController {
         	List<Message_Tag> messageTags = messageTagRepo.findAllByTag_Id(tagId);
         	
         	for (Message_Tag mt : messageTags) {
-        		messageTagRepo.save(new Message_Tag(mt.getMessage(), mergedTag));
+        		if (uniqueMessages.add(mt.getMessage().getId())) {
+        			messageTagRepo.save(new Message_Tag(mt.getMessage(), mergedTag));
+        		}
         	}
 
         	// Обновить данные о тегах и их ключевых словах в модуле science ???
