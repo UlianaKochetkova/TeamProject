@@ -29,12 +29,13 @@ public class MessageTags extends HashMap<Tag, Double> {
                 .collect(Collectors.toMap(Entry::getKey, Entry::getValue));
     }
 
-    public List<Tag> getTopTags(int count) {
+    public List<String> getTopTags(int count) {
         return this.entrySet().stream()
                 .filter(tagDoubleEntry -> tagDoubleEntry.getValue() > 0)
                 .sorted(Comparator.comparingDouble(Map.Entry<Tag, Double>::getValue).reversed())
+                .map(tagDoubleEntry -> tagDoubleEntry.getKey().getLabel())
+                .distinct()
                 .limit(count)
-                .map(Entry::getKey)
                 .collect(Collectors.toList());
     }
 

@@ -37,7 +37,7 @@ public class Message {
         return messageTags;
     }
 
-    public List<Tag> getListMessageTags(int count) {
+    public List<String> getListMessageTags(int count) {
         return messageTags.getTopTags(count);
     }
 }

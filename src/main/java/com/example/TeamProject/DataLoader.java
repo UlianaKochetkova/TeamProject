@@ -153,7 +153,7 @@ public class DataLoader {
         }
 
         void readFile() {
-            InputStream inputStream = getClass().getResourceAsStream("/dictionaries/chat.txt");
+            InputStream inputStream = getClass().getResourceAsStream("/dictionaries/chat.chat");
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 

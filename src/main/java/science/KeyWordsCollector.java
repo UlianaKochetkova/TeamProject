@@ -23,8 +23,8 @@ public class KeyWordsCollector {
         keyWords = new HashMap<>();
         keyWordsCount = new HashMap<>();
         this.paths = paths;
-        readAllDictionaries();
         readAllFavoritesKeyWords();
+        readAllDictionaries();
         for (Map.Entry<Tag, Integer> tag : tags.entrySet()) {
             if (!keyWords.containsKey(tag.getKey().getLabel())) {
                 this.keyWords.put(tag.getKey().getLabel().toLowerCase().replaceAll("\\pP", " "), new TokenTag(tag.getKey(), 1));
@@ -41,23 +41,25 @@ public class KeyWordsCollector {
     }
 
     private void readDictionary(Tag tag, String path) {
-        InputStream inputStream = getClass().getResourceAsStream(path);
-        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+        if (!keyWords.containsKey(tag.getValue())) {
+            InputStream inputStream = getClass().getResourceAsStream(path);
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
-        try {
-            while (bufferedReader.ready()) {
-                String[] tokenLine = bufferedReader.readLine().split(":");
-                keyWords.put(
-                        tokenLine[0],
-                        new TokenTag(tag, Double.parseDouble(tokenLine[1])));
-                keyWordsCount.put(
-                        tag,
-                        Integer.MAX_VALUE
-                );
+            try {
+                while (bufferedReader.ready()) {
+                    String[] tokenLine = bufferedReader.readLine().split(":");
+                    keyWords.put(
+                            tokenLine[0],
+                            new TokenTag(tag, Double.parseDouble(tokenLine[1])));
+                    keyWordsCount.put(
+                            tag,
+                            Integer.MAX_VALUE
+                    );
+                }
+            } catch (IOException exception) {
+                exception.printStackTrace();
             }
-        } catch (IOException exception) {
-            exception.printStackTrace();
         }
     }
 
@@ -70,18 +72,18 @@ public class KeyWordsCollector {
         for (Map.Entry<String, TokenTag> keyWord : favoritesKeyWords.entrySet()) {
             boolean inKeyWords = false;
             for (Map.Entry<String, TokenTag> tag : keyWordsFavorites.entrySet()) {
-                if (keyWord.getKey().equals(tag.getValue().getTag().getLabel())) {
-                    newKeyWordsFavorites.put(tag.getKey(), keyWord.getValue());
+                if (keyWord.getKey().equals(tag.getValue().getTag().getLabel().toLowerCase())) {
+                    newKeyWordsFavorites.put(tag.getKey().toLowerCase(), keyWord.getValue());
                     inKeyWords = true;
                 }
             }
             if (!inKeyWords) {
-                newKeyWordsFavorites.put(keyWord.getKey(), keyWord.getValue());
+                newKeyWordsFavorites.put(keyWord.getKey().toLowerCase(), keyWord.getValue());
             }
         }
         Map<String, TokenTag> modifiedKeyWordsFavorites = new HashMap<>(keyWordsFavorites);
         for (Map.Entry<String, TokenTag> tag : keyWordsFavorites.entrySet()) {
-            if (newKeyWordsFavorites.containsKey(tag.getValue().getTag().getLabel())) {
+            if (newKeyWordsFavorites.containsKey(tag.getValue().getTag().getLabel().toLowerCase())) {
                 modifiedKeyWordsFavorites.remove(tag.getKey());
             }
         }

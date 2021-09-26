@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.thymeleaf.util.ListUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -104,8 +105,8 @@ public class ChatController {
         science.Message scienceMessage = new science.Message(msg.getText());
 
         List<Message_Tag> messageTags = new ArrayList<>();
-        for (science.Tag messageTag : scienceMessage.getListMessageTags(3)) {
-            Message_Tag message_tag = new Message_Tag(msg, tagRepo.findByName(messageTag.getLabel()));
+        for (String messageTag : scienceMessage.getListMessageTags(3)) {
+            Message_Tag message_tag = new Message_Tag(msg, tagRepo.findByName(messageTag));
             if (message_tag.getTag() != null) {
                 if (message_tag.getTag().equals(currTag)) {
                     tagChanged = false;
@@ -223,10 +224,10 @@ public class ChatController {
             science.Message scienceMessage = new science.Message(message.getText());
 
             List<Message_Tag> messageTags = new ArrayList<>();
-            for (science.Tag messageTag : scienceMessage.getListMessageTags(3)) {
-                Tag tag = tagRepo.findByName(messageTag.getLabel());
+            for (String messageTag : scienceMessage.getListMessageTags(3)) {
+                Tag tag = tagRepo.findByName(messageTag);
                 if (tag != null) {
-                    if (messageTagRepo.findByMessage_IdAndTag_Id(message.getId(), tag.getId()) == null) {
+                    if (ListUtils.isEmpty(messageTagRepo.findAllByMessage_IdAndTag_Id(message.getId(), tag.getId()))) {
                         Message_Tag message_tag = new Message_Tag(message, tag);
                         if (message_tag.getTag() != null) {
                             messageTags.add(message_tag);
@@ -237,7 +238,7 @@ public class ChatController {
             messageTags.forEach(messageTagRepo::save);
         }
         System.out.println("All tags : " +
-                Application.nlpManager.keyWordsCollector.getTopTags(1)
+                Application.nlpManager.keyWordsCollector.getTags()
                         .stream()
                         .map(science.Tag::getLabel)
                         .collect(Collectors.toList()));
@@ -270,8 +271,8 @@ public class ChatController {
             keyWordsFavorites.put(tag.getName(), new science.TokenTag(new science.Tag(mergedTag.getName()), 1));
 
         	List<Message_Tag> messageTags = messageTagRepo.findAllByTag_Id(tagId);
-        	
-        	for (Message_Tag mt : messageTags) {
+
+            for (Message_Tag mt : messageTags) {
         		if (uniqueMessages.add(mt.getMessage().getId())) {
         			messageTagRepo.save(new Message_Tag(mt.getMessage(), mergedTag));
         		}

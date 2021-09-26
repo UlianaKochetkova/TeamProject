@@ -14,7 +14,7 @@ public class NLPManager {
 
     public NLPManager() {
         PATHS.put(new Tag(1, "SPAM"), "/dictionaries/spam.dict");
-        PATHS.put(new Tag(2, "DEADLINE"), "/dictionaries/deadline.dict");
+        //PATHS.put(new Tag(2, "DEADLINE"), "/dictionaries/deadline.dict");
         messages = "";
         tagAnalyzer = new TagAnalyzer();
         Map<Tag, Integer> tags = tagAnalyzer.analyze(messages);
