@@ -1,6 +1,7 @@
 package com.example.TeamProject.controller;
 
 import com.example.TeamProject.entities.User;
+import com.example.TeamProject.entities.User_Roles;
 import com.example.TeamProject.repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,6 +31,12 @@ public class RegistrationController {
     private UserChatRepository userChatRepo;
 
     @Autowired
+    private RoleRepository roleRepo;
+
+    @Autowired
+    private UserRoleRepository userRoleRepo;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @GetMapping("/registration")
@@ -46,8 +53,12 @@ public class RegistrationController {
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
         userRepo.save(user);
+
+        User_Roles ur=new User_Roles();
+        ur.setUser(user);
+        ur.setRole(roleRepo.findRoleByName("User"));
+        userRoleRepo.save(ur);
 
         return "redirect:/login";
     }
